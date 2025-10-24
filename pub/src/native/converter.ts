@@ -1,5 +1,6 @@
-import { JSON_Value } from './types/json-value.js';
+import { JSON_Value } from '../types/json-value.js';
 import { SMTPMessage, Attachment, Headers, AddressObject } from './types.js';
+import * as normalized from '../types/normalized_email.js';
 
 // Primitive converters
 const convertString = (value: string): JSON_Value => {
@@ -100,6 +101,216 @@ export namespace Convert {
         }
         if (attachment.cid !== undefined) {
             obj.cid = convertString(attachment.cid);
+        }
+
+        return ['object', obj] as const;
+    };
+
+    export const NormalizedAddressObject = (addressObj: normalized.AddressObject): JSON_Value => {
+        const obj: { [key: string]: JSON_Value } = {};
+
+        if (addressObj.text !== undefined) {
+            obj.text = convertString(addressObj.text);
+        }
+        if (addressObj.html !== undefined) {
+            obj.html = convertString(addressObj.html);
+        }
+        if (addressObj.value !== undefined) {
+            obj.value = convertArray(addressObj.value, (addr) => {
+                const addrObj: { [key: string]: JSON_Value } = {
+                    address: convertString(addr.address || '')
+                };
+                if (addr.name !== undefined && addr.name !== '') {
+                    addrObj.name = convertString(addr.name);
+                } else {
+                    addrObj.name = convertString('');
+                }
+                return ['object', addrObj] as const;
+            });
+        }
+
+        return ['object', obj] as const;
+    };
+
+    export const NormalizedHeaders = (headers: { [key: string]: normalized.Header_Value }): JSON_Value => {
+        const obj: { [key: string]: JSON_Value } = {};
+
+        for (const [key, headerValue] of Object.entries(headers)) {
+            if (headerValue === undefined) {
+                continue;
+            }
+            
+            const [headerType, value] = headerValue;
+            
+            switch (headerType) {
+                case 'unstructured':
+                    obj[key] = ['array', [convertString(headerType), convertString(value)]] as const;
+                    break;
+                    
+                case 'date':
+                    obj[key] = ['array', [convertString(headerType), convertDate(value)]] as const;
+                    break;
+                    
+                case 'address':
+                    obj[key] = ['array', [convertString(headerType), NormalizedAddressObject(value)]] as const;
+                    break;
+                    
+                case 'address_list':
+                    obj[key] = ['array', [convertString(headerType), convertArray(value, NormalizedAddressObject)]] as const;
+                    break;
+                    
+                case 'message_id':
+                    obj[key] = ['array', [convertString(headerType), convertString(value)]] as const;
+                    break;
+                    
+                case 'message_id_list':
+                    obj[key] = ['array', [convertString(headerType), convertArray(value, convertString)]] as const;
+                    break;
+                    
+                case 'content_type':
+                    const contentTypeObj: { [key: string]: JSON_Value } = {
+                        value: convertString(value.value)
+                    };
+                    if (value.params) {
+                        const paramsObj: { [key: string]: JSON_Value } = {};
+                        for (const [paramKey, paramValue] of Object.entries(value.params)) {
+                            paramsObj[paramKey] = convertString(paramValue);
+                        }
+                        contentTypeObj.params = ['object', paramsObj] as const;
+                    }
+                    obj[key] = ['array', [convertString(headerType), ['object', contentTypeObj]]] as const;
+                    break;
+                    
+                case 'mime_version':
+                case 'content_encoding':
+                    obj[key] = ['array', [convertString(headerType), convertString(value)]] as const;
+                    break;
+                    
+                case 'content_disposition':
+                    const dispositionObj: { [key: string]: JSON_Value } = {
+                        value: convertString(value.value)
+                    };
+                    if (value.params) {
+                        const paramsObj: { [key: string]: JSON_Value } = {};
+                        for (const [paramKey, paramValue] of Object.entries(value.params)) {
+                            paramsObj[paramKey] = convertString(paramValue);
+                        }
+                        dispositionObj.params = ['object', paramsObj] as const;
+                    }
+                    obj[key] = ['array', [convertString(headerType), ['object', dispositionObj]]] as const;
+                    break;
+                    
+                case 'received':
+                    const receivedObj: { [key: string]: JSON_Value } = {
+                        date: convertDate(value.date)
+                    };
+                    if (value.from) receivedObj.from = convertString(value.from);
+                    if (value.by) receivedObj.by = convertString(value.by);
+                    if (value.via) receivedObj.via = convertString(value.via);
+                    if (value.with) receivedObj.with = convertString(value.with);
+                    if (value.id) receivedObj.id = convertString(value.id);
+                    if (value.for) receivedObj.for = convertString(value.for);
+                    obj[key] = ['array', [convertString(headerType), ['object', receivedObj]]] as const;
+                    break;
+                    
+                case 'keywords':
+                    obj[key] = ['array', [convertString(headerType), convertArray(value, convertString)]] as const;
+                    break;
+                    
+                case 'unknown':
+                    obj[key] = ['array', [convertString(headerType), convertString(value)]] as const;
+                    break;
+                    
+                default:
+                    // Fallback for any unhandled header types
+                    obj[key] = ['array', [convertString('unknown'), convertString(String(value))]] as const;
+                    break;
+            }
+        }
+
+        return ['object', obj] as const;
+    };
+
+    export const NormalizedAttachment = (attachment: normalized.Attachment): JSON_Value => {
+        const obj: { [key: string]: JSON_Value } = {
+            contentType: convertString(attachment.contentType),
+            checksum: convertString(attachment.checksum),
+            size: convertNumber(attachment.size),
+            related: convertBoolean(attachment.related ?? false)
+        };
+
+        if (attachment.filename !== undefined) {
+            obj.filename = convertString(attachment.filename);
+        }
+        if (attachment.contentDisposition !== undefined) {
+            obj.contentDisposition = convertString(attachment.contentDisposition);
+        }
+        if (attachment.content !== undefined) {
+            obj.content = convertString(attachment.content);
+        }
+        if (attachment.cid !== undefined) {
+            obj.cid = convertString(attachment.cid);
+        }
+
+        return ['object', obj] as const;
+    };
+
+    export const NormalizedSMTPMessage = (message: normalized.SMTPMessage): JSON_Value => {
+        const obj: { [key: string]: JSON_Value } = {
+            headers: NormalizedHeaders(message.headers),
+            attachments: convertArray(message.attachments, NormalizedAttachment)
+        };
+
+        if (message.subject !== undefined) {
+            obj.subject = convertString(message.subject);
+        }
+
+        if (message.from !== undefined) {
+            obj.from = convertArray(message.from, NormalizedAddressObject);
+        }
+
+        if (message.to !== undefined) {
+            obj.to = convertArray(message.to, NormalizedAddressObject);
+        }
+
+        if (message.cc !== undefined) {
+            obj.cc = convertArray(message.cc, NormalizedAddressObject);
+        }
+
+        if (message.bcc !== undefined) {
+            obj.bcc = convertArray(message.bcc, NormalizedAddressObject);
+        }
+
+        if (message.replyTo !== undefined) {
+            obj.replyTo = convertArray(message.replyTo, NormalizedAddressObject);
+        }
+
+        if (message.date !== undefined) {
+            obj.date = convertDate(message.date);
+        }
+
+        if (message.messageId !== undefined) {
+            obj.messageId = convertString(message.messageId);
+        }
+
+        if (message.inReplyTo !== undefined) {
+            obj.inReplyTo = convertString(message.inReplyTo);
+        }
+
+        if (message.references !== undefined) {
+            obj.references = convertArray(message.references, convertString);
+        }
+
+        if (message.text !== undefined) {
+            obj.text = convertString(message.text);
+        }
+
+        if (message.html !== undefined && message.html !== false) {
+            obj.html = convertString(message.html);
+        }
+
+        if (message.textAsHtml !== undefined) {
+            obj.textAsHtml = convertString(message.textAsHtml);
         }
 
         return ['object', obj] as const;
@@ -306,6 +517,7 @@ export namespace Convert {
 
 // Main export functions using the namespace
 export const convertSMTPMessage = Convert.SMTPMessage;
+export const convertNormalizedSMTPMessage = Convert.NormalizedSMTPMessage;
 export const convertAttachment = Convert.Attachment;
 export const convertAddressObject = Convert.AddressObject;
 export const convertHeaders = Convert.Headers;
