@@ -71,14 +71,16 @@
   "subject": "Test Email",
   "text": "This is a test email message.\nIt has multiple lines of text content.\n\nBest regards,\nTest Sender\n\nTEST EMAIL\n\nThis is a test email message.\n\nIt has multiple lines of text content.\n\nBest regards,\nTest Sender",
   "textAsHtml": "<p>This is a test email message.<br/>It has multiple lines of text content.</p><p>Best regards,<br/>Test Sender</p><br/>\n<p>TEST EMAIL</p><p>This is a test email message.</p><p>It has multiple lines of text content.</p><p>Best regards,<br/>Test Sender</p>",
-  "to": {
-    "html": "<span class=\"mp_address_group\"><a href=\"mailto:recipient@example.com\" class=\"mp_address_email\">recipient@example.com</a></span>",
-    "text": "recipient@example.com",
-    "value": [
-      {
-        "address": "recipient@example.com",
-        "name": ""
-      }
-    ]
-  }
+  "to": [
+    {
+      "html": "<span class=\"mp_address_group\"><a href=\"mailto:recipient@example.com\" class=\"mp_address_email\">recipient@example.com</a></span>",
+      "text": "recipient@example.com",
+      "value": [
+        {
+          "address": "recipient@example.com",
+          "name": ""
+        }
+      ]
+    }
+  ]
 }

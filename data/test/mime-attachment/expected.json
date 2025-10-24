@@ -80,14 +80,16 @@
   "subject": "Document Attachment",
   "text": "Please find the attached document.\n",
   "textAsHtml": "<p>Please find the attached document.</p>",
-  "to": {
-    "html": "<span class=\"mp_address_group\"><a href=\"mailto:user@test.com\" class=\"mp_address_email\">user@test.com</a></span>",
-    "text": "user@test.com",
-    "value": [
-      {
-        "address": "user@test.com",
-        "name": ""
-      }
-    ]
-  }
+  "to": [
+    {
+      "html": "<span class=\"mp_address_group\"><a href=\"mailto:user@test.com\" class=\"mp_address_email\">user@test.com</a></span>",
+      "text": "user@test.com",
+      "value": [
+        {
+          "address": "user@test.com",
+          "name": ""
+        }
+      ]
+    }
+  ]
 }

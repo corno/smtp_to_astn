@@ -10,16 +10,18 @@
       "size": 93
     }
   ],
-  "cc": {
-    "html": "<span class=\"mp_address_group\"><a href=\"mailto:team@company.com\" class=\"mp_address_email\">team@company.com</a></span>",
-    "text": "team@company.com",
-    "value": [
-      {
-        "address": "team@company.com",
-        "name": ""
-      }
-    ]
-  },
+  "cc": [
+    {
+      "html": "<span class=\"mp_address_group\"><a href=\"mailto:team@company.com\" class=\"mp_address_email\">team@company.com</a></span>",
+      "text": "team@company.com",
+      "value": [
+        {
+          "address": "team@company.com",
+          "name": ""
+        }
+      ]
+    }
+  ],
   "date": "2025-10-24T10:30:00.000Z",
   "from": {
     "html": "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:john@example.com\" class=\"mp_address_email\">john@example.com</a>&gt;</span>",
@@ -128,18 +130,20 @@
   "subject": "Project Update with Attachment",
   "text": "Hi everyone,\n\nPlease find the project update attached. We've made significant progress this week:\n\n1. Completed API development\n2. Fixed critical bugs\n3. Updated documentation\n\nLet me know if you have any questions.\n\nBest regards,\nJohn\n\nHI EVERYONE,\n\nPlease find the project update attached. We've made significant progress this\nweek:\n\n 1. Completed API development\n 2. Fixed critical bugs\n 3. Updated documentation\n\nLet me know if you have any questions.\n\nBest regards,\nJohn",
   "textAsHtml": "<p>Hi everyone,</p><p>Please find the project update attached. We&apos;ve made significant progress this week:</p><p>1. Completed API development<br/>2. Fixed critical bugs<br/>3. Updated documentation</p><p>Let me know if you have any questions.</p><p>Best regards,<br/>John</p><br/>\n<p>HI EVERYONE,</p><p>Please find the project update attached. We&apos;ve made significant progress this<br/>week:</p><p> 1. Completed API development<br/> 2. Fixed critical bugs<br/> 3. Updated documentation</p><p>Let me know if you have any questions.</p><p>Best regards,<br/>John</p>",
-  "to": {
-    "html": "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Jane Smith</span> &lt;<a href=\"mailto:jane@example.com\" class=\"mp_address_email\">jane@example.com</a>&gt;</span>, <span class=\"mp_address_group\"><a href=\"mailto:bob@company.com\" class=\"mp_address_email\">bob@company.com</a></span>",
-    "text": "\"Jane Smith\" <jane@example.com>, bob@company.com",
-    "value": [
-      {
-        "address": "jane@example.com",
-        "name": "Jane Smith"
-      },
-      {
-        "address": "bob@company.com",
-        "name": ""
-      }
-    ]
-  }
+  "to": [
+    {
+      "html": "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Jane Smith</span> &lt;<a href=\"mailto:jane@example.com\" class=\"mp_address_email\">jane@example.com</a>&gt;</span>, <span class=\"mp_address_group\"><a href=\"mailto:bob@company.com\" class=\"mp_address_email\">bob@company.com</a></span>",
+      "text": "\"Jane Smith\" <jane@example.com>, bob@company.com",
+      "value": [
+        {
+          "address": "jane@example.com",
+          "name": "Jane Smith"
+        },
+        {
+          "address": "bob@company.com",
+          "name": ""
+        }
+      ]
+    }
+  ]
 }

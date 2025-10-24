@@ -1,10 +1,20 @@
 #!/usr/bin/env node
 
-import { simpleParser, ParsedMail, Attachment, AddressObject } from 'mailparser';
-import { JSON_Value } from './json-value.js';
+import { simpleParser, ParsedMail, AddressObject, Attachment } from 'mailparser';
+import { JSON_Value } from './types/json-value.js';
 import { serializeJSONValue } from './serializer.js';
 import { convertSMTPMessage } from './converter.js';
+import { normalizeMailparserOutput } from './normalizer.js';
 import { SMTPMessage, HeaderValue } from './types.js';
+import * as normalized from "./types/normalized_email"
+
+// Main build function using normalized data
+const buildNormalizedSMTPJSON = (normalizedMessage: normalized.SMTPMessage, indentSize: number = 2): string => {
+    const indent = ' '.repeat(indentSize);
+    // We'll need to update the converter to handle normalized format
+    const jsonValue = convertSMTPMessage(normalizedMessage as any); // TODO: Update converter interface
+    return serializeJSONValue(jsonValue, indent);
+};
 
 // Function to convert mailparser output to our tagged union format
 const convertToHeaderValue = (key: string, value: any): HeaderValue => {
@@ -255,6 +265,9 @@ async function parseEmailFromStdin(): Promise<void> {
         // Parse the email
         const parsed: ParsedMail = await simpleParser(emailBuffer);
 
+        // Normalize the mailparser output to consistent format
+        const normalized = normalizeMailparserOutput(parsed);
+
         // Convert headers to our tagged union format
         const headers: { [key: string]: HeaderValue } = {};
         if (parsed.headers) {
@@ -263,31 +276,22 @@ async function parseEmailFromStdin(): Promise<void> {
             }
         }
 
-        // Convert to our JSON format
+        // Create SMTPMessage with normalized address arrays but original headers
         const smtpMessage: SMTPMessage = {
             headers,
-            subject: parsed.subject,
-            from: parsed.from,
-            to: parsed.to,
-            cc: parsed.cc,
-            bcc: parsed.bcc,
-            date: parsed.date,
-            messageId: parsed.messageId,
-            inReplyTo: parsed.inReplyTo,
-            references: parsed.references,
-            text: parsed.text,
-            html: parsed.html,
-            textAsHtml: parsed.textAsHtml,
-            attachments: parsed.attachments.map((att: Attachment) => ({
-                filename: att.filename,
-                contentType: att.contentType,
-                contentDisposition: att.contentDisposition,
-                checksum: att.checksum,
-                size: att.size,
-                content: att.content ? att.content.toString('base64') : undefined,
-                cid: att.cid,
-                related: att.related
-            }))
+            subject: normalized.subject,
+            from: normalized.from?.[0], // Take first address for from (should only be one)
+            to: normalized.to,
+            cc: normalized.cc,
+            bcc: normalized.bcc,
+            date: normalized.date,
+            messageId: normalized.messageId,
+            inReplyTo: normalized.inReplyTo,
+            references: normalized.references,
+            text: normalized.text,
+            html: normalized.html,
+            textAsHtml: normalized.textAsHtml,
+            attachments: normalized.attachments
         };
 
         // Output as JSON to stdout using functional JSON builder

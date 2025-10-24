@@ -77,14 +77,16 @@
   "subject": "Weekly Newsletter",
   "text": "Welcome to our weekly newsletter!\n\nThis week's highlights:\n- Product updates\n- Company news\n- Industry insights\n\nThank you for subscribing!",
   "textAsHtml": "<p>Welcome to our weekly newsletter!</p><p>This week&apos;s highlights:<br/>- Product updates<br/>- Company news<br/>- Industry insights</p><p>Thank you for subscribing!</p>",
-  "to": {
-    "html": "<span class=\"mp_address_group\"><a href=\"mailto:subscribers@company.com\" class=\"mp_address_email\">subscribers@company.com</a></span>",
-    "text": "subscribers@company.com",
-    "value": [
-      {
-        "address": "subscribers@company.com",
-        "name": ""
-      }
-    ]
-  }
+  "to": [
+    {
+      "html": "<span class=\"mp_address_group\"><a href=\"mailto:subscribers@company.com\" class=\"mp_address_email\">subscribers@company.com</a></span>",
+      "text": "subscribers@company.com",
+      "value": [
+        {
+          "address": "subscribers@company.com",
+          "name": ""
+        }
+      ]
+    }
+  ]
 }

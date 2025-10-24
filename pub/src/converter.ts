@@ -1,4 +1,4 @@
-import { JSON_Value } from './json-value.js';
+import { JSON_Value } from './types/json-value.js';
 import { SMTPMessage, Attachment, Headers, AddressObject } from './types.js';
 
 // Primitive converters

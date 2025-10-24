@@ -14,10 +14,10 @@ export interface Attachment {
 export interface SMTPMessage {
     headers: Headers;
     subject?: string;
-    from?: AddressObject;
-    to?: AddressObject | AddressObject[];
-    cc?: AddressObject | AddressObject[];
-    bcc?: AddressObject | AddressObject[];
+    from?: AddressObject;                        // Keep original for compatibility
+    to?: AddressObject | AddressObject[];       // Keep original for compatibility  
+    cc?: AddressObject | AddressObject[];       // Keep original for compatibility
+    bcc?: AddressObject | AddressObject[];      // Keep original for compatibility
     date?: Date;
     messageId?: string;
     inReplyTo?: string;

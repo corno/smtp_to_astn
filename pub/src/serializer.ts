@@ -1,4 +1,4 @@
-import { JSON_Value } from './json-value.js';
+import { JSON_Value } from './types/json-value.js';
 
 const escapeString = (str: string): string => {
     // Ensure we have a string

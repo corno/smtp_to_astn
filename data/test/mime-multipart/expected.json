@@ -71,14 +71,16 @@
   "subject": "Multipart MIME Example",
   "text": "This is the plain text version of the message.\n",
   "textAsHtml": "<p>This is the plain text version of the message.</p>",
-  "to": {
-    "html": "<span class=\"mp_address_group\"><a href=\"mailto:mary@example.net\" class=\"mp_address_email\">mary@example.net</a></span>",
-    "text": "mary@example.net",
-    "value": [
-      {
-        "address": "mary@example.net",
-        "name": ""
-      }
-    ]
-  }
+  "to": [
+    {
+      "html": "<span class=\"mp_address_group\"><a href=\"mailto:mary@example.net\" class=\"mp_address_email\">mary@example.net</a></span>",
+      "text": "mary@example.net",
+      "value": [
+        {
+          "address": "mary@example.net",
+          "name": ""
+        }
+      ]
+    }
+  ]
 }
