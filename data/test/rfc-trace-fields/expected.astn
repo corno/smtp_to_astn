@@ -1,0 +1,53 @@
+(
+  'headers': {
+    `received`: | 'unknown' "from x.y.test by example.net via TCP with ESMTP id ABC12345 for <mary@example.net>;  21 Nov 1997 10:05:43 -0600,from node.example by x.y.test; 21 Nov 1997 10:01:22 -0600"
+    `from`: | 'address' (
+      'value': [ (
+        'name': "John Doe"
+        'address': "jdoe@node.example"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:jdoe@node.example\" class=\"mp_address_email\">jdoe@node.example</a>&gt;</span>"
+      'text': "\"John Doe\" <jdoe@node.example>"
+    )
+    `to`: | 'address_list' [ (
+      'value': [ (
+        'name': "Mary Smith"
+        'address': "mary@example.net"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Mary Smith</span> &lt;<a href=\"mailto:mary@example.net\" class=\"mp_address_email\">mary@example.net</a>&gt;</span>"
+      'text': "\"Mary Smith\" <mary@example.net>"
+    ) ]
+    `subject`: | 'unstructured' "Saying Hello"
+    `date`: | 'date' "1997-11-21T15:55:06.000Z"
+    `message-id`: | 'message_id' "<1234@local.node.example>"
+  }
+  'subject': "Saying Hello"
+  'from': (
+    'value': [ (
+      'name': "John Doe"
+      'address': "jdoe@node.example"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:jdoe@node.example\" class=\"mp_address_email\">jdoe@node.example</a>&gt;</span>"
+    'text': "\"John Doe\" <jdoe@node.example>"
+  )
+  'to': [ (
+    'value': [ (
+      'name': "Mary Smith"
+      'address': "mary@example.net"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Mary Smith</span> &lt;<a href=\"mailto:mary@example.net\" class=\"mp_address_email\">mary@example.net</a>&gt;</span>"
+    'text': "\"Mary Smith\" <mary@example.net>"
+  ) ]
+  'cc': [ ]
+  'bcc': [ ]
+  'replyTo': [ ]
+  'date': "1997-11-21T15:55:06.000Z"
+  'messageId': "<1234@local.node.example>"
+  'inReplyTo': ~
+  'references': [ ]
+  'text': "This is a message just to say hello.
+So, \"Hello\"."
+  'html': ~
+  'textAsHtml': "<p>This is a message just to say hello.<br/>So, &quot;Hello&quot;.</p>"
+  'attachments': [ ]
+)

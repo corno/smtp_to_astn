@@ -1,0 +1,131 @@
+(
+  'headers': {
+    `date`: | 'date' "2025-10-24T10:30:00.000Z"
+    `from`: | 'address' (
+      'value': [ (
+        'name': "John Doe"
+        'address': "john@example.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:john@example.com\" class=\"mp_address_email\">john@example.com</a>&gt;</span>"
+      'text': "\"John Doe\" <john@example.com>"
+    )
+    `to`: | 'address_list' [ (
+      'value': [ (
+        'name': "Jane Smith"
+        'address': "jane@example.com"
+      ) (
+        'name': ""
+        'address': "bob@company.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Jane Smith</span> &lt;<a href=\"mailto:jane@example.com\" class=\"mp_address_email\">jane@example.com</a>&gt;</span>, <span class=\"mp_address_group\"><a href=\"mailto:bob@company.com\" class=\"mp_address_email\">bob@company.com</a></span>"
+      'text': "\"Jane Smith\" <jane@example.com>, bob@company.com"
+    ) ]
+    `cc`: | 'address_list' [ (
+      'value': [ (
+        'name': ""
+        'address': "team@company.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:team@company.com\" class=\"mp_address_email\">team@company.com</a></span>"
+      'text': "team@company.com"
+    ) ]
+    `subject`: | 'unstructured' "Project Update with Attachment"
+    `message-id`: | 'message_id' "<project-update-2025@example.com>"
+    `in-reply-to`: | 'message_id_list' [ "<original-message@example.com>" ]
+    `references`: | 'message_id_list' [ "<thread-start@example.com>" "<original-message@example.com>" ]
+    `mime-version`: | 'mime_version' "1.0"
+    `content-type`: | 'content_type' (
+      'value': "multipart/mixed"
+      'params': {
+        `boundary`: "boundary456"
+      }
+    )
+  }
+  'subject': "Project Update with Attachment"
+  'from': (
+    'value': [ (
+      'name': "John Doe"
+      'address': "john@example.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:john@example.com\" class=\"mp_address_email\">john@example.com</a>&gt;</span>"
+    'text': "\"John Doe\" <john@example.com>"
+  )
+  'to': [ (
+    'value': [ (
+      'name': "Jane Smith"
+      'address': "jane@example.com"
+    ) (
+      'name': ""
+      'address': "bob@company.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Jane Smith</span> &lt;<a href=\"mailto:jane@example.com\" class=\"mp_address_email\">jane@example.com</a>&gt;</span>, <span class=\"mp_address_group\"><a href=\"mailto:bob@company.com\" class=\"mp_address_email\">bob@company.com</a></span>"
+    'text': "\"Jane Smith\" <jane@example.com>, bob@company.com"
+  ) ]
+  'cc': [ (
+    'value': [ (
+      'name': ""
+      'address': "team@company.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:team@company.com\" class=\"mp_address_email\">team@company.com</a></span>"
+    'text': "team@company.com"
+  ) ]
+  'bcc': [ ]
+  'replyTo': [ ]
+  'date': "2025-10-24T10:30:00.000Z"
+  'messageId': "<project-update-2025@example.com>"
+  'inReplyTo': "<original-message@example.com>"
+  'references': [ "<thread-start@example.com>" "<original-message@example.com>" ]
+  'text': "Hi everyone,
+
+Please find the project update attached. We've made significant progress this week:
+
+1. Completed API development
+2. Fixed critical bugs
+3. Updated documentation
+
+Let me know if you have any questions.
+
+Best regards,
+John
+
+HI EVERYONE,
+
+Please find the project update attached. We've made significant progress this
+week:
+
+ 1. Completed API development
+ 2. Fixed critical bugs
+ 3. Updated documentation
+
+Let me know if you have any questions.
+
+Best regards,
+John"
+  'html': "<p>Hi everyone,</p><p>Please find the project update attached. We&apos;ve made significant progress this week:</p><p>1. Completed API development<br/>2. Fixed critical bugs<br/>3. Updated documentation</p><p>Let me know if you have any questions.</p><p>Best regards,<br/>John</p><br/>
+<html>
+<head><title>Project Update</title></head>
+<body>
+<h2>Hi everyone,</h2>
+<p>Please find the project update attached. We've made significant progress this week:</p>
+<ol>
+<li><strong>Completed API development</strong></li>
+<li><em>Fixed critical bugs</em></li>
+<li>Updated documentation</li>
+</ol>
+<p>Let me know if you have any questions.</p>
+<p>Best regards,<br><strong>John</strong></p>
+</body>
+</html>
+"
+  'textAsHtml': "<p>Hi everyone,</p><p>Please find the project update attached. We&apos;ve made significant progress this week:</p><p>1. Completed API development<br/>2. Fixed critical bugs<br/>3. Updated documentation</p><p>Let me know if you have any questions.</p><p>Best regards,<br/>John</p><br/>
+<p>HI EVERYONE,</p><p>Please find the project update attached. We&apos;ve made significant progress this<br/>week:</p><p> 1. Completed API development<br/> 2. Fixed critical bugs<br/> 3. Updated documentation</p><p>Let me know if you have any questions.</p><p>Best regards,<br/>John</p>"
+  'attachments': [ (
+    'filename': "project-update.pdf"
+    'contentType': "application/pdf"
+    'contentDisposition': "attachment"
+    'checksum': "b5d8f167ec8da67e1cd1f1707b2acf98"
+    'size': 93
+    'content': "JVBERi0xLjQKJcOkw7zDtsO4CjIgMCBvYmoKPDwKL0xlbmd0aCAzIDAgUgovRmlsdGVyIC9GbGF0ZURlY29kZQo+PgpzdHJlYW0KeJwrKs5wBgCC0AKRAo4CjqG4"
+    'cid': ~
+    'related': false
+  ) ]
+)

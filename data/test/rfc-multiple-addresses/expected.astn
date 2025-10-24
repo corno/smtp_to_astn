@@ -1,0 +1,83 @@
+(
+  'headers': {
+    `from`: | 'address' (
+      'value': [ (
+        'name': "Joe Q. Public"
+        'address': "john.q.public@example.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Joe Q. Public</span> &lt;<a href=\"mailto:john.q.public@example.com\" class=\"mp_address_email\">john.q.public@example.com</a>&gt;</span>"
+      'text': "\"Joe Q. Public\" <john.q.public@example.com>"
+    )
+    `to`: | 'address_list' [ (
+      'value': [ (
+        'name': "Mary Smith"
+        'address': "mary@x.test"
+      ) (
+        'name': ""
+        'address': "jdoe@example.org"
+      ) (
+        'name': "Who?"
+        'address': "one@y.test"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Mary Smith</span> &lt;<a href=\"mailto:mary@x.test\" class=\"mp_address_email\">mary@x.test</a>&gt;</span>, <span class=\"mp_address_group\"><a href=\"mailto:jdoe@example.org\" class=\"mp_address_email\">jdoe@example.org</a></span>, <span class=\"mp_address_group\"><span class=\"mp_address_name\">Who?</span> &lt;<a href=\"mailto:one@y.test\" class=\"mp_address_email\">one@y.test</a>&gt;</span>"
+      'text': "\"Mary Smith\" <mary@x.test>, jdoe@example.org, \"Who?\" <one@y.test>"
+    ) ]
+    `cc`: | 'address_list' [ (
+      'value': [ (
+        'name': ""
+        'address': "boss@nil.test"
+      ) (
+        'name': "Giant; \"Big\" Box"
+        'address': "sysservices@example.net"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:boss@nil.test\" class=\"mp_address_email\">boss@nil.test</a></span>, <span class=\"mp_address_group\"><span class=\"mp_address_name\">Giant; &#x22;Big&#x22; Box</span> &lt;<a href=\"mailto:sysservices@example.net\" class=\"mp_address_email\">sysservices@example.net</a>&gt;</span>"
+      'text': "boss@nil.test, \"Giant; \"Big\" Box\" <sysservices@example.net>"
+    ) ]
+    `date`: | 'date' "2003-07-01T08:52:37.000Z"
+    `message-id`: | 'message_id' "<5678.21-Nov-1997@example.com>"
+  }
+  'subject': ~
+  'from': (
+    'value': [ (
+      'name': "Joe Q. Public"
+      'address': "john.q.public@example.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Joe Q. Public</span> &lt;<a href=\"mailto:john.q.public@example.com\" class=\"mp_address_email\">john.q.public@example.com</a>&gt;</span>"
+    'text': "\"Joe Q. Public\" <john.q.public@example.com>"
+  )
+  'to': [ (
+    'value': [ (
+      'name': "Mary Smith"
+      'address': "mary@x.test"
+    ) (
+      'name': ""
+      'address': "jdoe@example.org"
+    ) (
+      'name': "Who?"
+      'address': "one@y.test"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Mary Smith</span> &lt;<a href=\"mailto:mary@x.test\" class=\"mp_address_email\">mary@x.test</a>&gt;</span>, <span class=\"mp_address_group\"><a href=\"mailto:jdoe@example.org\" class=\"mp_address_email\">jdoe@example.org</a></span>, <span class=\"mp_address_group\"><span class=\"mp_address_name\">Who?</span> &lt;<a href=\"mailto:one@y.test\" class=\"mp_address_email\">one@y.test</a>&gt;</span>"
+    'text': "\"Mary Smith\" <mary@x.test>, jdoe@example.org, \"Who?\" <one@y.test>"
+  ) ]
+  'cc': [ (
+    'value': [ (
+      'name': ""
+      'address': "boss@nil.test"
+    ) (
+      'name': "Giant; \"Big\" Box"
+      'address': "sysservices@example.net"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:boss@nil.test\" class=\"mp_address_email\">boss@nil.test</a></span>, <span class=\"mp_address_group\"><span class=\"mp_address_name\">Giant; &#x22;Big&#x22; Box</span> &lt;<a href=\"mailto:sysservices@example.net\" class=\"mp_address_email\">sysservices@example.net</a>&gt;</span>"
+    'text': "boss@nil.test, \"Giant; \"Big\" Box\" <sysservices@example.net>"
+  ) ]
+  'bcc': [ ]
+  'replyTo': [ ]
+  'date': "2003-07-01T08:52:37.000Z"
+  'messageId': "<5678.21-Nov-1997@example.com>"
+  'inReplyTo': ~
+  'references': [ ]
+  'text': "Hi everyone."
+  'html': ~
+  'textAsHtml': "<p>Hi everyone.</p>"
+  'attachments': [ ]
+)

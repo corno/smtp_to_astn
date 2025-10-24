@@ -1,16 +1,7 @@
 #!/bin/bash
 
-# Regression test suite for SMTP to JSON converter
-echo "=== SMTP to JSON Regression Test Suite ==="
-echo "Testing against expected outputs for regression detection..."
-echo
-
-cd /home/corno/workspace/smtp_to_astn/pub
-
-#!/bin/bash
-
-# Regression test suite for SMTP to JSON converter
-echo "=== SMTP to JSON Regression Test Suite ==="
+# Regression test suite for SMTP to ASTN converter
+echo "=== SMTP to ASTN Regression Test Suite ==="
 echo "Testing against expected outputs for regression detection..."
 echo
 
@@ -35,8 +26,8 @@ run_regression_test() {
     total=$((total + 1))
     
     local source_file="$test_dir/source.eml"
-    local expected_file="$test_dir/expected.json"
-    local actual_file="$test_dir/actual.json"
+    local expected_file="$test_dir/expected.astn"
+    local actual_file="$test_dir/actual.astn"
     
     if [ ! -f "$source_file" ]; then
         echo "❌ Source file not found: $source_file"
@@ -53,47 +44,37 @@ run_regression_test() {
     
     # Run the test and capture output
     if actual_output=$(cat "$source_file" | node dist/index.js 2>&1); then
-        # Validate JSON and pretty-print for comparison
-        if actual_json=$(echo "$actual_output" | jq . 2>/dev/null); then
-            expected_json=$(cat "$expected_file")
-            
-            # Compare the JSON outputs
-            if [ "$actual_json" = "$expected_json" ]; then
-                echo "✅ Output matches expected"
-                passed=$((passed + 1))
-                # Remove actual.json if test passes
-                [ -f "$actual_file" ] && rm "$actual_file"
-            else
-                echo "❌ Output differs from expected"
-                echo "Expected vs Actual differences:"
-                echo "--- Expected ---"
-                echo "$expected_json" | head -5
-                echo "..."
-                echo "--- Actual ---"
-                echo "$actual_json" | head -5
-                echo "..."
-                
-                # Save actual output to file for comparison
-                echo "$actual_json" > "$actual_file"
-                echo "💡 Actual output saved to: $actual_file"
-                echo "💡 Use 'diff -u $expected_file $actual_file' for full diff"
-                
-                # Add to failed tests array
-                failed_tests+=("$test_dir")
-                failed=$((failed + 1))
-            fi
+        expected_output=$(cat "$expected_file")
+        
+        # Compare the ASTN outputs directly (text comparison)
+        if [ "$actual_output" = "$expected_output" ]; then
+            echo "✅ Output matches expected"
+            passed=$((passed + 1))
+            # Remove actual.astn if test passes
+            [ -f "$actual_file" ] && rm "$actual_file"
         else
-            echo "❌ Invalid JSON output"
-            echo "Error: $actual_output"
-            # Save error output to actual.json file
+            echo "❌ Output differs from expected"
+            echo "Expected vs Actual differences:"
+            echo "--- Expected ---"
+            echo "$expected_output" | head -5
+            echo "..."
+            echo "--- Actual ---"
+            echo "$actual_output" | head -5
+            echo "..."
+            
+            # Save actual output to file for comparison
             echo "$actual_output" > "$actual_file"
+            echo "💡 Actual output saved to: $actual_file"
+            echo "💡 Use 'diff -u $expected_file $actual_file' for full diff"
+            
+            # Add to failed tests array
             failed_tests+=("$test_dir")
             failed=$((failed + 1))
         fi
     else
         echo "❌ Failed to parse"
         echo "Error: $actual_output"
-        # Save error output to actual.json file
+        # Save error output to actual.astn file
         echo "$actual_output" > "$actual_file"
         failed_tests+=("$test_dir")
         failed=$((failed + 1))
@@ -150,8 +131,8 @@ else
         if command -v bcompare &> /dev/null; then
             for test_dir in "${failed_tests[@]}"; do
                 test_name=$(basename "$test_dir")
-                expected_file="$test_dir/expected.json"
-                actual_file="$test_dir/actual.json"
+                expected_file="$test_dir/expected.astn"
+                actual_file="$test_dir/actual.astn"
                 
                 if [ -f "$expected_file" ] && [ -f "$actual_file" ]; then
                     echo "📋 Comparing: $test_name"
@@ -165,8 +146,8 @@ else
             echo "   Install Beyond Compare or use manual diff commands:"
             for test_dir in "${failed_tests[@]}"; do
                 test_name=$(basename "$test_dir")
-                expected_file="$test_dir/expected.json"
-                actual_file="$test_dir/actual.json"
+                expected_file="$test_dir/expected.astn"
+                actual_file="$test_dir/actual.astn"
                 echo "   diff -u '$expected_file' '$actual_file'"
             done
         fi

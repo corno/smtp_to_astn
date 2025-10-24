@@ -1,0 +1,64 @@
+(
+  'headers': {
+    `mime-version`: | 'mime_version' "1.0"
+    `from`: | 'address' (
+      'value': [ (
+        'name': "John Doe"
+        'address': "john@example.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:john@example.com\" class=\"mp_address_email\">john@example.com</a>&gt;</span>"
+      'text': "\"John Doe\" <john@example.com>"
+    )
+    `to`: | 'address_list' [ (
+      'value': [ (
+        'name': ""
+        'address': "mary@example.net"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:mary@example.net\" class=\"mp_address_email\">mary@example.net</a></span>"
+      'text': "mary@example.net"
+    ) ]
+    `subject`: | 'unstructured' "Multipart MIME Example"
+    `date`: | 'date' "2025-10-25T14:30:00.000Z"
+    `message-id`: | 'message_id' "<mime-test@example.com>"
+    `content-type`: | 'content_type' (
+      'value': "multipart/alternative"
+      'params': {
+        `boundary`: "boundary-alt"
+      }
+    )
+  }
+  'subject': "Multipart MIME Example"
+  'from': (
+    'value': [ (
+      'name': "John Doe"
+      'address': "john@example.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:john@example.com\" class=\"mp_address_email\">john@example.com</a>&gt;</span>"
+    'text': "\"John Doe\" <john@example.com>"
+  )
+  'to': [ (
+    'value': [ (
+      'name': ""
+      'address': "mary@example.net"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:mary@example.net\" class=\"mp_address_email\">mary@example.net</a></span>"
+    'text': "mary@example.net"
+  ) ]
+  'cc': [ ]
+  'bcc': [ ]
+  'replyTo': [ ]
+  'date': "2025-10-25T14:30:00.000Z"
+  'messageId': "<mime-test@example.com>"
+  'inReplyTo': ~
+  'references': [ ]
+  'text': "This is the plain text version of the message.
+"
+  'html': "<html>
+<body>
+<p>This is the <strong>HTML</strong> version of the message.</p>
+</body>
+</html>
+"
+  'textAsHtml': "<p>This is the plain text version of the message.</p>"
+  'attachments': [ ]
+)

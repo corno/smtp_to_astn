@@ -1,99 +1,114 @@
 import * as _et from 'exupery-core-types'
+import * as _ea from 'exupery-core-alg'
 
 import * as d_in from "../../types/normalized_email"
 
-import * as d_out from "../../types/json"
+import * as d_out from "astn/dist/generated/interface/schemas/sealed_target/data_types/target"
+
 
 // Utility functions for converting primitive types
 const string = (value: string): d_out.Value => {
-    return ['string', value] as const
+    return ['text', {
+        'delimiter': ['quote', null],
+        'value': value
+    }]
 }
 
 const number = (value: number): d_out.Value => {
-    if (!isFinite(value)) {
-        return ['null'] as const
-    }
-    return ['number', value] as const
+    return ['text', {
+        'delimiter': ['none', null],
+        'value': "" + value
+    }]
 }
 
 const boolean = (value: boolean): d_out.Value => {
-    return ['boolean', value] as const
+    return ['text', {
+        'delimiter': ['none', null],
+        'value': value ? "true" : "false"
+    }]
 }
 
-const null_ = (): d_out.Value => {
-    return ['null'] as const
+const state = (state_name: string, value: d_out.Value): d_out.Value => {
+    return ['state', {
+        'state': state_name,
+        'value': value
+    }]
+}
+
+const nothing = (): d_out.Value => {
+    return ['nothing', null]
 }
 
 const date = (value: Date): d_out.Value => {
-    return ['string', value.toISOString()] as const
+    return ['text', {
+        'delimiter': ['quote', null],
+        'value': value.toISOString()
+    }]
 }
 
 const object = <T>(obj: _et.Dictionary<T>, converter: (value: T) => d_out.Value): d_out.Value => {
-    const temp: { [key: string]: d_out.Value } = {}
-    obj.map(($, key) => {
-        temp[key] = converter($)
-    })
-    return ['object', temp]
+    return ['dictionary', obj.map(($) => converter($)).to_array(() => 1)]
 }
 
 
+const verbose_group = (obj: _et.Dictionary<d_out.Value>): d_out.Value => {
+    return ['verbose group', obj.to_array(() => 1)]
+}
+
 const array = <T>(arr: _et.Array<T>, converter: (item: T) => d_out.Value): d_out.Value => {
-    return ['array', arr.__get_raw_copy().map(converter)] as const
+    return ['list', arr.map(converter)]
 }
 
 // Convert Address
 const Address = (address: d_in.Address): d_out.Value => {
-    const obj: { [key: string]: d_out.Value } = {
-        name: string(address.name),
-        address: address.address.transform(
-            ($) => string($),
-            () => null_()
-        )
-    }
 
-    return ['object', obj] as const
+    return verbose_group(_ea.dictionary_literal({
+        "name": string(address.name),
+        "address": address.address.transform(
+            ($) => string($),
+            () => nothing()
+        )
+    }))
 }
 
 // Convert Address_Object
 const Address_Object = (addressObj: d_in.Address_Object): d_out.Value => {
-    const obj: { [key: string]: d_out.Value } = {
-        value: array(addressObj.value, Address),
-        html: string(addressObj.html),
-        text: string(addressObj.text)
-    }
-
-    return ['object', obj] as const
+    return verbose_group(_ea.dictionary_literal({
+        "value": array(addressObj.value, Address),
+        "html": string(addressObj.html),
+        "text": string(addressObj.text)
+    }))
 }
 
 // Convert Attachment
 const Attachment = (attachment: d_in.Attachment): d_out.Value => {
-    const obj: { [key: string]: d_out.Value } = {
+
+
+    return verbose_group(_ea.dictionary_literal({
         filename: attachment.filename.transform(
             ($) => string($),
-            () => null_()
+            () => nothing()
         ),
         contentType: string(attachment.contentType),
         contentDisposition: attachment.contentDisposition.transform(
             ($) => string($),
-            () => null_()
+            () => nothing()
         ),
         checksum: string(attachment.checksum),
         size: number(attachment.size),
         content: attachment.content.transform(
             ($) => string($),
-            () => null_()
+            () => nothing()
         ),
         cid: attachment.cid.transform(
             ($) => string($),
-            () => null_()
+            () => nothing()
         ),
         related: attachment.related.transform(
             ($) => boolean($),
             () => boolean(false)
         )
-    }
-
-    return ['object', obj] as const
+    }))
 }
 
 // Convert Header_Value
@@ -102,80 +117,80 @@ const Header_Value = (headerValue: d_in.Header_Value): d_out.Value => {
 
     switch (headerType) {
         case 'unstructured':
-            return ['array', [string(headerType), string(value)]] as const
+            return state(headerType, string(value)) 
 
         case 'date':
-            return ['array', [string(headerType), date(value)]] as const
+            return state(headerType, date(value))
 
         case 'address':
-            return ['array', [string(headerType), Address_Object(value)]] as const
+            return state(headerType, Address_Object(value))
 
         case 'address_list':
-            return ['array', [string(headerType), array(value, Address_Object)]] as const
+            return state(headerType, array(value, Address_Object))
 
         case 'message_id':
-            return ['array', [string(headerType), string(value)]] as const
+            return state(headerType, string(value))
 
         case 'message_id_list':
-            return ['array', [string(headerType), array(value, string)]] as const
+            return state(headerType, array(value, string))
 
         case 'content_type':
             const contentTypeObj: { [key: string]: d_out.Value } = {
                 value: string(value.value),
                 params: object(value.params, ($) => string($))
             }
-            return ['array', [string(headerType), ['object', contentTypeObj]]] as const
+            return state(headerType, verbose_group(_ea.dictionary_literal(contentTypeObj)))
 
         case 'mime_version':
         case 'content_encoding':
-            return ['array', [string(headerType), string(value)]] as const
+            return state(headerType, string(value))
 
         case 'content_disposition':
             const dispositionObj: { [key: string]: d_out.Value } = {
                 value: string(value.value),
                 params: object(value.params, ($) => string($))
             }
-            return ['array', [string(headerType), ['object', dispositionObj]]] as const
+            return state(headerType, verbose_group(_ea.dictionary_literal(dispositionObj)))
 
         case 'received':
             const receivedObj: { [key: string]: d_out.Value } = {
                 from: value.from.transform(
                     ($) => string($),
-                    () => null_()
+                    () => nothing()
                 ),
                 by: value.by.transform(
                     ($) => string($),
-                    () => null_()
+                    () => nothing()
                 ),
                 via: value.via.transform(
                     ($) => string($),
-                    () => null_()
+                    () => nothing()
                 ),
                 with: value.with.transform(
                     ($) => string($),
-                    () => null_()
+                    () => nothing()
                 ),
                 id: value.id.transform(
                     ($) => string($),
-                    () => null_()
+                    () => nothing()
                 ),
                 for: value.for.transform(
                     ($) => string($),
-                    () => null_()
+                    () => nothing()
                 ),
                 date: date(value.date)
             }
-            return ['array', [string(headerType), ['object', receivedObj]]] as const
+            return state(headerType, verbose_group(_ea.dictionary_literal(receivedObj)))
 
         case 'keywords':
-            return ['array', [string(headerType), array(value, string)]] as const
+            return state(headerType, array(value, string))
 
         case 'unknown':
-            return ['array', [string(headerType), string(value)]] as const
+            return state(headerType, string(value))
 
         default:
             // Fallback for any unhandled header types
-            return ['array', [string('unknown'), string(String(value))]] as const
+            return state('unknown', string(String(value)))
     }
 }
 
@@ -190,11 +205,11 @@ export const Mail = (mail: d_in.Mail): d_out.Value => {
         headers: headers(mail.headers),
         subject: mail.subject.transform(
             ($) => string($),
-            () => null_()
+            () => nothing()
         ),
         from: mail.from.transform(
             ($) => Address_Object($),
-            () => null_()
+            () => nothing()
         ),
         to: array(mail.to, Address_Object),
         cc: array(mail.cc, Address_Object),
@@ -202,31 +217,31 @@ export const Mail = (mail: d_in.Mail): d_out.Value => {
         replyTo: array(mail.replyTo, Address_Object),
         date: mail.date.transform(
             ($) => date($),
-            () => null_()
+            () => nothing()
         ),
         messageId: mail.messageId.transform(
             ($) => string($),
-            () => null_()
+            () => nothing()
         ),
         inReplyTo: mail.inReplyTo.transform(
             ($) => string($),
-            () => null_()
+            () => nothing()
         ),
         references: array(mail.references, string),
         text: mail.text.transform(
             ($) => string($),
-            () => null_()
+            () => nothing()
         ),
         html: mail.html.transform(
             ($) => string($),
-            () => null_()
+            () => nothing()
         ),
         textAsHtml: mail.textAsHtml.transform(
             ($) => string($),
-            () => null_()
+            () => nothing()
         ),
         attachments: array(mail.attachments, Attachment)
     }
 
-    return ['object', obj] as const
+    return verbose_group(_ea.dictionary_literal(obj))
 }

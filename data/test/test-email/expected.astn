@@ -1,0 +1,81 @@
+(
+  'headers': {
+    `date`: | 'date' "2025-10-24T10:30:00.000Z"
+    `from`: | 'address' (
+      'value': [ (
+        'name': ""
+        'address': "sender@example.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:sender@example.com\" class=\"mp_address_email\">sender@example.com</a></span>"
+      'text': "sender@example.com"
+    )
+    `to`: | 'address_list' [ (
+      'value': [ (
+        'name': ""
+        'address': "recipient@example.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:recipient@example.com\" class=\"mp_address_email\">recipient@example.com</a></span>"
+      'text': "recipient@example.com"
+    ) ]
+    `subject`: | 'unstructured' "Test Email"
+    `message-id`: | 'message_id' "<12345@example.com>"
+    `mime-version`: | 'mime_version' "1.0"
+    `content-type`: | 'content_type' (
+      'value': "multipart/mixed"
+      'params': {
+        `boundary`: "boundary123"
+      }
+    )
+  }
+  'subject': "Test Email"
+  'from': (
+    'value': [ (
+      'name': ""
+      'address': "sender@example.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:sender@example.com\" class=\"mp_address_email\">sender@example.com</a></span>"
+    'text': "sender@example.com"
+  )
+  'to': [ (
+    'value': [ (
+      'name': ""
+      'address': "recipient@example.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:recipient@example.com\" class=\"mp_address_email\">recipient@example.com</a></span>"
+    'text': "recipient@example.com"
+  ) ]
+  'cc': [ ]
+  'bcc': [ ]
+  'replyTo': [ ]
+  'date': "2025-10-24T10:30:00.000Z"
+  'messageId': "<12345@example.com>"
+  'inReplyTo': ~
+  'references': [ ]
+  'text': "This is a test email message.
+It has multiple lines of text content.
+
+Best regards,
+Test Sender
+
+TEST EMAIL
+
+This is a test email message.
+
+It has multiple lines of text content.
+
+Best regards,
+Test Sender"
+  'html': "<p>This is a test email message.<br/>It has multiple lines of text content.</p><p>Best regards,<br/>Test Sender</p><br/>
+<html>
+<body>
+<h1>Test Email</h1>
+<p>This is a <strong>test email</strong> message.</p>
+<p>It has multiple lines of text content.</p>
+<p>Best regards,<br>Test Sender</p>
+</body>
+</html>
+"
+  'textAsHtml': "<p>This is a test email message.<br/>It has multiple lines of text content.</p><p>Best regards,<br/>Test Sender</p><br/>
+<p>TEST EMAIL</p><p>This is a test email message.</p><p>It has multiple lines of text content.</p><p>Best regards,<br/>Test Sender</p>"
+  'attachments': [ ]
+)

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Generate expected.json files for all test cases
-echo "=== Generating Expected JSON Files ==="
-echo "This will create expected.json files for regression testing"
+# Generate expected.astn files for all test cases
+echo "=== Generating Expected ASTN Files ==="
+echo "This will create expected.astn files for regression testing"
 echo
 
 cd /home/corno/workspace/smtp_to_astn/pub
@@ -36,7 +36,7 @@ generate_expected() {
     total=$((total + 1))
     
     local source_file="$test_dir/source.eml"
-    local expected_file="$test_dir/expected.json"
+    local expected_file="$test_dir/expected.astn"
     
     if [ ! -f "$source_file" ]; then
         echo "❌ Source file not found: $source_file"
@@ -46,16 +46,10 @@ generate_expected() {
     
     # Generate the expected output
     if output=$(cat "$source_file" | node dist/index.js 2>&1); then
-        # Validate that it's proper JSON
-        if echo "$output" | jq empty 2>/dev/null; then
-            echo "$output" | jq . > "$expected_file"
-            echo "✅ Generated expected.json"
-            generated=$((generated + 1))
-        else
-            echo "❌ Output is not valid JSON"
-            echo "Error: $output"
-            failed=$((failed + 1))
-        fi
+        # Just save the output directly (it's ASTN format, not JSON)
+        echo "$output" > "$expected_file"
+        echo "✅ Generated expected.astn"
+        generated=$((generated + 1))
     else
         echo "❌ Failed to parse source file"
         echo "Error: $output"
@@ -81,7 +75,7 @@ echo "Generated: $generated"
 echo "Failed: $failed"
 
 if [ $failed -eq 0 ]; then
-    echo "🎉 All expected.json files generated successfully!"
+    echo "🎉 All expected.astn files generated successfully!"
     exit 0
 else
     echo "⚠️  Some generations failed"

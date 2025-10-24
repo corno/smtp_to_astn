@@ -2,4 +2,4 @@
 /pub/dist
 
 # Test output files
-/data/test/**/actual.json
+/data/test/**/actual.astn

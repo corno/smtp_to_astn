@@ -1,0 +1,78 @@
+(
+  'headers': {
+    `from`: | 'address' (
+      'value': [ (
+        'name': ""
+        'address': "notification@service.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:notification@service.com\" class=\"mp_address_email\">notification@service.com</a></span>"
+      'text': "notification@service.com"
+    )
+    `to`: | 'address_list' [ (
+      'value': [ (
+        'name': ""
+        'address': "user@example.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:user@example.com\" class=\"mp_address_email\">user@example.com</a></span>"
+      'text': "user@example.com"
+    ) ]
+    `bcc`: | 'address_list' [ (
+      'value': [ (
+        'name': ""
+        'address': "admin@service.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:admin@service.com\" class=\"mp_address_email\">admin@service.com</a></span>"
+      'text': "admin@service.com"
+    ) ]
+    `subject`: | 'unstructured' "Test message with UTF-8 subject"
+    `date`: | 'date' "2025-10-25T17:00:00.000Z"
+    `message-id`: | 'message_id' "<unicode-test@service.com>"
+    `content-type`: | 'content_type' (
+      'value': "text/plain"
+      'params': {
+        `charset`: "utf-8"
+      }
+    )
+    `content-transfer-encoding`: | 'content_encoding' "8bit"
+  }
+  'subject': "Test message with UTF-8 subject"
+  'from': (
+    'value': [ (
+      'name': ""
+      'address': "notification@service.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:notification@service.com\" class=\"mp_address_email\">notification@service.com</a></span>"
+    'text': "notification@service.com"
+  )
+  'to': [ (
+    'value': [ (
+      'name': ""
+      'address': "user@example.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:user@example.com\" class=\"mp_address_email\">user@example.com</a></span>"
+    'text': "user@example.com"
+  ) ]
+  'cc': [ ]
+  'bcc': [ (
+    'value': [ (
+      'name': ""
+      'address': "admin@service.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:admin@service.com\" class=\"mp_address_email\">admin@service.com</a></span>"
+    'text': "admin@service.com"
+  ) ]
+  'replyTo': [ ]
+  'date': "2025-10-25T17:00:00.000Z"
+  'messageId': "<unicode-test@service.com>"
+  'inReplyTo': ~
+  'references': [ ]
+  'text': "This message contains Unicode characters: 
+Français, Español, Deutsch, 中文, العربية, Русский
+
+Special symbols: ©™®€£¥₽
+
+Emoji: 🌟✨🚀📧"
+  'html': ~
+  'textAsHtml': "<p>This message contains Unicode characters:<br/>Fran&ccedil;ais, Espa&ntilde;ol, Deutsch, &#x4E2D;&#x6587;, &#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;, &Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</p><p>Special symbols: &copy;&trade;&reg;&euro;&pound;&yen;&#x20BD;</p><p>Emoji: &#x1F31F;&#x2728;&#x1F680;&#x1F4E7;</p>"
+  'attachments': [ ]
+)

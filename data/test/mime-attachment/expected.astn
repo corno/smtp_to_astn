@@ -1,0 +1,68 @@
+(
+  'headers': {
+    `mime-version`: | 'mime_version' "1.0"
+    `from`: | 'address' (
+      'value': [ (
+        'name': ""
+        'address': "support@example.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:support@example.com\" class=\"mp_address_email\">support@example.com</a></span>"
+      'text': "support@example.com"
+    )
+    `to`: | 'address_list' [ (
+      'value': [ (
+        'name': ""
+        'address': "user@test.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:user@test.com\" class=\"mp_address_email\">user@test.com</a></span>"
+      'text': "user@test.com"
+    ) ]
+    `subject`: | 'unstructured' "Document Attachment"
+    `date`: | 'date' "2025-10-25T15:00:00.000Z"
+    `message-id`: | 'message_id' "<attachment-test@example.com>"
+    `content-type`: | 'content_type' (
+      'value': "multipart/mixed"
+      'params': {
+        `boundary`: "mixed-boundary"
+      }
+    )
+  }
+  'subject': "Document Attachment"
+  'from': (
+    'value': [ (
+      'name': ""
+      'address': "support@example.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:support@example.com\" class=\"mp_address_email\">support@example.com</a></span>"
+    'text': "support@example.com"
+  )
+  'to': [ (
+    'value': [ (
+      'name': ""
+      'address': "user@test.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:user@test.com\" class=\"mp_address_email\">user@test.com</a></span>"
+    'text': "user@test.com"
+  ) ]
+  'cc': [ ]
+  'bcc': [ ]
+  'replyTo': [ ]
+  'date': "2025-10-25T15:00:00.000Z"
+  'messageId': "<attachment-test@example.com>"
+  'inReplyTo': ~
+  'references': [ ]
+  'text': "Please find the attached document.
+"
+  'html': ~
+  'textAsHtml': "<p>Please find the attached document.</p>"
+  'attachments': [ (
+    'filename': "document.pdf"
+    'contentType': "application/pdf"
+    'contentDisposition': "attachment"
+    'checksum': "b5d8f167ec8da67e1cd1f1707b2acf98"
+    'size': 93
+    'content': "JVBERi0xLjQKJcOkw7zDtsO4CjIgMCBvYmoKPDwKL0xlbmd0aCAzIDAgUgovRmlsdGVyIC9GbGF0ZURlY29kZQo+PgpzdHJlYW0KeJwrKs5wBgCC0AKRAo4CjqG4"
+    'cid': ~
+    'related': false
+  ) ]
+)

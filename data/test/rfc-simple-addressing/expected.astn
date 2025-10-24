@@ -1,0 +1,52 @@
+(
+  'headers': {
+    `from`: | 'address' (
+      'value': [ (
+        'name': "John Doe"
+        'address': "jdoe@machine.example"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:jdoe@machine.example\" class=\"mp_address_email\">jdoe@machine.example</a>&gt;</span>"
+      'text': "\"John Doe\" <jdoe@machine.example>"
+    )
+    `to`: | 'address_list' [ (
+      'value': [ (
+        'name': "Mary Smith"
+        'address': "mary@example.net"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Mary Smith</span> &lt;<a href=\"mailto:mary@example.net\" class=\"mp_address_email\">mary@example.net</a>&gt;</span>"
+      'text': "\"Mary Smith\" <mary@example.net>"
+    ) ]
+    `subject`: | 'unstructured' "Saying Hello"
+    `date`: | 'date' "1997-11-21T15:55:06.000Z"
+    `message-id`: | 'message_id' "<1234@local.machine.example>"
+  }
+  'subject': "Saying Hello"
+  'from': (
+    'value': [ (
+      'name': "John Doe"
+      'address': "jdoe@machine.example"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:jdoe@machine.example\" class=\"mp_address_email\">jdoe@machine.example</a>&gt;</span>"
+    'text': "\"John Doe\" <jdoe@machine.example>"
+  )
+  'to': [ (
+    'value': [ (
+      'name': "Mary Smith"
+      'address': "mary@example.net"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Mary Smith</span> &lt;<a href=\"mailto:mary@example.net\" class=\"mp_address_email\">mary@example.net</a>&gt;</span>"
+    'text': "\"Mary Smith\" <mary@example.net>"
+  ) ]
+  'cc': [ ]
+  'bcc': [ ]
+  'replyTo': [ ]
+  'date': "1997-11-21T15:55:06.000Z"
+  'messageId': "<1234@local.machine.example>"
+  'inReplyTo': ~
+  'references': [ ]
+  'text': "This is a message just to say hello.
+So, \"Hello\"."
+  'html': ~
+  'textAsHtml': "<p>This is a message just to say hello.<br/>So, &quot;Hello&quot;.</p>"
+  'attachments': [ ]
+)

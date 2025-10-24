@@ -1,0 +1,19 @@
+(
+  'headers': {
+    `404`: | 'unknown' "Not Found"
+  }
+  'subject': ~
+  'from': ~
+  'to': [ ]
+  'cc': [ ]
+  'bcc': [ ]
+  'replyTo': [ ]
+  'date': ~
+  'messageId': ~
+  'inReplyTo': ~
+  'references': [ ]
+  'text': ~
+  'html': ~
+  'textAsHtml': ~
+  'attachments': [ ]
+)

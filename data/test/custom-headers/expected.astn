@@ -1,0 +1,62 @@
+(
+  'headers': {
+    `from`: | 'address' (
+      'value': [ (
+        'name': ""
+        'address': "newsletter@company.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:newsletter@company.com\" class=\"mp_address_email\">newsletter@company.com</a></span>"
+      'text': "newsletter@company.com"
+    )
+    `to`: | 'address_list' [ (
+      'value': [ (
+        'name': ""
+        'address': "subscribers@company.com"
+      ) ]
+      'html': "<span class=\"mp_address_group\"><a href=\"mailto:subscribers@company.com\" class=\"mp_address_email\">subscribers@company.com</a></span>"
+      'text': "subscribers@company.com"
+    ) ]
+    `subject`: | 'unstructured' "Weekly Newsletter"
+    `date`: | 'date' "2025-10-25T16:00:00.000Z"
+    `message-id`: | 'message_id' "<newsletter-123@company.com>"
+    `keywords`: | 'keywords' [ "newsletter" "updates" "announcements" ]
+    `x-mailer`: | 'unknown' "CompanyMailer 2.0"
+    `priority`: | 'unknown' "normal"
+    `list`: | 'unknown' "[object Object]"
+  }
+  'subject': "Weekly Newsletter"
+  'from': (
+    'value': [ (
+      'name': ""
+      'address': "newsletter@company.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:newsletter@company.com\" class=\"mp_address_email\">newsletter@company.com</a></span>"
+    'text': "newsletter@company.com"
+  )
+  'to': [ (
+    'value': [ (
+      'name': ""
+      'address': "subscribers@company.com"
+    ) ]
+    'html': "<span class=\"mp_address_group\"><a href=\"mailto:subscribers@company.com\" class=\"mp_address_email\">subscribers@company.com</a></span>"
+    'text': "subscribers@company.com"
+  ) ]
+  'cc': [ ]
+  'bcc': [ ]
+  'replyTo': [ ]
+  'date': "2025-10-25T16:00:00.000Z"
+  'messageId': "<newsletter-123@company.com>"
+  'inReplyTo': ~
+  'references': [ ]
+  'text': "Welcome to our weekly newsletter!
+
+This week's highlights:
+- Product updates
+- Company news
+- Industry insights
+
+Thank you for subscribing!"
+  'html': ~
+  'textAsHtml': "<p>Welcome to our weekly newsletter!</p><p>This week&apos;s highlights:<br/>- Product updates<br/>- Company news<br/>- Industry insights</p><p>Thank you for subscribing!</p>"
+  'attachments': [ ]
+)
