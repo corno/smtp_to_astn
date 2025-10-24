@@ -10,7 +10,7 @@ export interface Address {
     name: string;
 }
 
-export interface AddressObject {
+export interface Address_Object {
     value: Address[];
     html: string;
     text: string;
@@ -27,14 +27,14 @@ export interface Attachment {
     related?: boolean;
 }
 
-export interface SMTPMessage {
+export interface Mail {
     headers: { [key: string]: Header_Value }; // Raw headers map
     subject?: string;
-    from?: AddressObject[];    // Always array
-    to?: AddressObject[];      // Always array
-    cc?: AddressObject[];      // Always array
-    bcc?: AddressObject[];     // Always array
-    replyTo?: AddressObject[]; // Always array
+    from?: Address_Object[];    // Always array
+    to?: Address_Object[];      // Always array
+    cc?: Address_Object[];      // Always array
+    bcc?: Address_Object[];     // Always array
+    replyTo?: Address_Object[]; // Always array
     date?: Date;
     messageId?: string;
     inReplyTo?: string;
@@ -49,8 +49,8 @@ export interface SMTPMessage {
 export type Header_Value = 
     | ["unstructured", string]                    // Simple text headers like Subject, Comments
     | ["date", Date]                             // Date headers
-    | ["address", AddressObject]                 // Single address headers like From, Sender
-    | ["address_list", AddressObject[]]          // Multiple address headers like To, Cc
+    | ["address", Address_Object]                 // Single address headers like From, Sender
+    | ["address_list", Address_Object[]]          // Multiple address headers like To, Cc
     | ["message_id", string]                     // Message-ID format
     | ["message_id_list", string[]]              // References, In-Reply-To (can be multiple)
     | ["content_type", {                         // Content-Type with parameters

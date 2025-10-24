@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { simpleParser, ParsedMail, AddressObject, Attachment } from 'mailparser';
-import { JSON_Value } from './types/json-value.js';
+import { Value } from './types/json.js';
 import { serializeJSONValue } from './serializer.js';
 import { convertSMTPMessage, convertNormalizedSMTPMessage } from './native/converter.js';
 import { normalizeMailparserOutput } from './normalizer.js';
@@ -9,7 +9,7 @@ import { SMTPMessage, HeaderValue } from './native/types.js';
 import * as normalized from "./types/normalized_email"
 
 // Main build function using normalized data
-const buildNormalizedSMTPJSON = (normalizedMessage: normalized.SMTPMessage, indentSize: number = 2): string => {
+const buildNormalizedSMTPJSON = (normalizedMessage: normalized.Mail, indentSize: number = 2): string => {
     const indent = ' '.repeat(indentSize);
     const jsonValue = convertNormalizedSMTPMessage(normalizedMessage);
     return serializeJSONValue(jsonValue, indent);

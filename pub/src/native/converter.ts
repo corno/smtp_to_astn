@@ -1,33 +1,33 @@
-import { JSON_Value } from '../types/json-value.js';
+import { Value } from '../types/json.js';
 import { SMTPMessage, Attachment, Headers, AddressObject } from './types.js';
 import * as normalized from '../types/normalized_email.js';
 
 // Primitive converters
-const convertString = (value: string): JSON_Value => {
+const convertString = (value: string): Value => {
     return ['string', value] as const;
 };
 
-const convertNumber = (value: number): JSON_Value => {
+const convertNumber = (value: number): Value => {
     if (!isFinite(value)) {
         return ['null'] as const;
     }
     return ['number', value] as const;
 };
 
-const convertBoolean = (value: boolean): JSON_Value => {
+const convertBoolean = (value: boolean): Value => {
     return ['boolean', value] as const;
 };
 
-const convertNull = (): JSON_Value => {
+const convertNull = (): Value => {
     return ['null'] as const;
 };
 
-const convertDate = (date: Date): JSON_Value => {
+const convertDate = (date: Date): Value => {
     return ['string', date.toISOString()] as const;
 };
 
 // Generic object converter for unknown/complex objects
-const convertGenericObject = (obj: any): JSON_Value => {
+const convertGenericObject = (obj: any): Value => {
     if (obj === null || obj === undefined) {
         return convertNull();
     }
@@ -53,7 +53,7 @@ const convertGenericObject = (obj: any): JSON_Value => {
     }
     
     if (typeof obj === 'object') {
-        const result: { [key: string]: JSON_Value } = {};
+        const result: { [key: string]: Value } = {};
         for (const [key, value] of Object.entries(obj)) {
             if (value !== undefined) {
                 result[key] = convertGenericObject(value);
@@ -67,7 +67,7 @@ const convertGenericObject = (obj: any): JSON_Value => {
 };
 
 // Optional value converter
-const convertOptional = <T>(value: T | undefined, converter: (val: T) => JSON_Value): JSON_Value => {
+const convertOptional = <T>(value: T | undefined, converter: (val: T) => Value): Value => {
     if (value === undefined || value === null) {
         return convertNull();
     }
@@ -75,15 +75,15 @@ const convertOptional = <T>(value: T | undefined, converter: (val: T) => JSON_Va
 };
 
 // Array converter
-const convertArray = <T>(array: T[], itemConverter: (item: T) => JSON_Value): JSON_Value => {
+const convertArray = <T>(array: T[], itemConverter: (item: T) => Value): Value => {
     return ['array', array.map(itemConverter)] as const;
 };
 
 // Namespace containing type-specific converters matching type names exactly
 export namespace Convert {
     
-    export const Attachment = (attachment: Attachment): JSON_Value => {
-        const obj: { [key: string]: JSON_Value } = {
+    export const Attachment = (attachment: Attachment): Value => {
+        const obj: { [key: string]: Value } = {
             contentType: convertString(attachment.contentType),
             checksum: convertString(attachment.checksum),
             size: convertNumber(attachment.size),
@@ -106,8 +106,8 @@ export namespace Convert {
         return ['object', obj] as const;
     };
 
-    export const NormalizedAddressObject = (addressObj: normalized.AddressObject): JSON_Value => {
-        const obj: { [key: string]: JSON_Value } = {};
+    export const NormalizedAddressObject = (addressObj: normalized.Address_Object): Value => {
+        const obj: { [key: string]: Value } = {};
 
         if (addressObj.text !== undefined) {
             obj.text = convertString(addressObj.text);
@@ -117,7 +117,7 @@ export namespace Convert {
         }
         if (addressObj.value !== undefined) {
             obj.value = convertArray(addressObj.value, (addr) => {
-                const addrObj: { [key: string]: JSON_Value } = {
+                const addrObj: { [key: string]: Value } = {
                     address: convertString(addr.address || '')
                 };
                 if (addr.name !== undefined && addr.name !== '') {
@@ -132,8 +132,8 @@ export namespace Convert {
         return ['object', obj] as const;
     };
 
-    export const NormalizedHeaders = (headers: { [key: string]: normalized.Header_Value }): JSON_Value => {
-        const obj: { [key: string]: JSON_Value } = {};
+    export const NormalizedHeaders = (headers: { [key: string]: normalized.Header_Value }): Value => {
+        const obj: { [key: string]: Value } = {};
 
         for (const [key, headerValue] of Object.entries(headers)) {
             if (headerValue === undefined) {
@@ -168,11 +168,11 @@ export namespace Convert {
                     break;
                     
                 case 'content_type':
-                    const contentTypeObj: { [key: string]: JSON_Value } = {
+                    const contentTypeObj: { [key: string]: Value } = {
                         value: convertString(value.value)
                     };
                     if (value.params) {
-                        const paramsObj: { [key: string]: JSON_Value } = {};
+                        const paramsObj: { [key: string]: Value } = {};
                         for (const [paramKey, paramValue] of Object.entries(value.params)) {
                             paramsObj[paramKey] = convertString(paramValue);
                         }
@@ -187,11 +187,11 @@ export namespace Convert {
                     break;
                     
                 case 'content_disposition':
-                    const dispositionObj: { [key: string]: JSON_Value } = {
+                    const dispositionObj: { [key: string]: Value } = {
                         value: convertString(value.value)
                     };
                     if (value.params) {
-                        const paramsObj: { [key: string]: JSON_Value } = {};
+                        const paramsObj: { [key: string]: Value } = {};
                         for (const [paramKey, paramValue] of Object.entries(value.params)) {
                             paramsObj[paramKey] = convertString(paramValue);
                         }
@@ -201,7 +201,7 @@ export namespace Convert {
                     break;
                     
                 case 'received':
-                    const receivedObj: { [key: string]: JSON_Value } = {
+                    const receivedObj: { [key: string]: Value } = {
                         date: convertDate(value.date)
                     };
                     if (value.from) receivedObj.from = convertString(value.from);
@@ -231,8 +231,8 @@ export namespace Convert {
         return ['object', obj] as const;
     };
 
-    export const NormalizedAttachment = (attachment: normalized.Attachment): JSON_Value => {
-        const obj: { [key: string]: JSON_Value } = {
+    export const NormalizedAttachment = (attachment: normalized.Attachment): Value => {
+        const obj: { [key: string]: Value } = {
             contentType: convertString(attachment.contentType),
             checksum: convertString(attachment.checksum),
             size: convertNumber(attachment.size),
@@ -255,8 +255,8 @@ export namespace Convert {
         return ['object', obj] as const;
     };
 
-    export const NormalizedSMTPMessage = (message: normalized.SMTPMessage): JSON_Value => {
-        const obj: { [key: string]: JSON_Value } = {
+    export const NormalizedSMTPMessage = (message: normalized.Mail): Value => {
+        const obj: { [key: string]: Value } = {
             headers: NormalizedHeaders(message.headers),
             attachments: convertArray(message.attachments, NormalizedAttachment)
         };
@@ -316,8 +316,8 @@ export namespace Convert {
         return ['object', obj] as const;
     };
 
-    export const AddressObject = (addressObj: AddressObject): JSON_Value => {
-        const obj: { [key: string]: JSON_Value } = {};
+    export const AddressObject = (addressObj: AddressObject): Value => {
+        const obj: { [key: string]: Value } = {};
 
         if (addressObj.text !== undefined) {
             obj.text = convertString(addressObj.text);
@@ -327,7 +327,7 @@ export namespace Convert {
         }
         if (addressObj.value !== undefined) {
             obj.value = convertArray(addressObj.value, (addr) => {
-                const addrObj: { [key: string]: JSON_Value } = {
+                const addrObj: { [key: string]: Value } = {
                     address: convertString(addr.address || '')
                 };
                 if (addr.name !== undefined && addr.name !== '') {
@@ -342,8 +342,8 @@ export namespace Convert {
         return ['object', obj] as const;
     };
 
-    export const Headers = (headers: Headers): JSON_Value => {
-        const obj: { [key: string]: JSON_Value } = {};
+    export const Headers = (headers: Headers): Value => {
+        const obj: { [key: string]: Value } = {};
 
         for (const [key, headerValue] of Object.entries(headers)) {
             if (headerValue === undefined) {
@@ -378,11 +378,11 @@ export namespace Convert {
                     break;
                     
                 case 'content_type':
-                    const contentTypeObj: { [key: string]: JSON_Value } = {
+                    const contentTypeObj: { [key: string]: Value } = {
                         value: convertString(value.value)
                     };
                     if (value.params) {
-                        const paramsObj: { [key: string]: JSON_Value } = {};
+                        const paramsObj: { [key: string]: Value } = {};
                         for (const [paramKey, paramValue] of Object.entries(value.params)) {
                             paramsObj[paramKey] = convertString(paramValue);
                         }
@@ -397,11 +397,11 @@ export namespace Convert {
                     break;
                     
                 case 'content_disposition':
-                    const dispositionObj: { [key: string]: JSON_Value } = {
+                    const dispositionObj: { [key: string]: Value } = {
                         value: convertString(value.value)
                     };
                     if (value.params) {
-                        const paramsObj: { [key: string]: JSON_Value } = {};
+                        const paramsObj: { [key: string]: Value } = {};
                         for (const [paramKey, paramValue] of Object.entries(value.params)) {
                             paramsObj[paramKey] = convertString(paramValue);
                         }
@@ -411,7 +411,7 @@ export namespace Convert {
                     break;
                     
                 case 'received':
-                    const receivedObj: { [key: string]: JSON_Value } = {
+                    const receivedObj: { [key: string]: Value } = {
                         date: convertDate(value.date)
                     };
                     if (value.from) receivedObj.from = convertString(value.from);
@@ -441,8 +441,8 @@ export namespace Convert {
         return ['object', obj] as const;
     };
 
-    export const SMTPMessage = (message: SMTPMessage): JSON_Value => {
-        const obj: { [key: string]: JSON_Value } = {
+    export const SMTPMessage = (message: SMTPMessage): Value => {
+        const obj: { [key: string]: Value } = {
             headers: Headers(message.headers),
             attachments: convertArray(message.attachments, Attachment)
         };

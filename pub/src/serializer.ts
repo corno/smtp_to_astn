@@ -1,4 +1,4 @@
-import { JSON_Value } from './types/json-value.js';
+import { Value } from './types/json.js';
 
 const escapeString = (str: string): string => {
     // Ensure we have a string
@@ -17,7 +17,7 @@ const escapeString = (str: string): string => {
 };
 
 // Functional serializer for JSON_Value
-export const serializeJSONValue = (jsonValue: JSON_Value, indent: string = '  ', level: number = 0): string => {
+export const serializeJSONValue = (jsonValue: Value, indent: string = '  ', level: number = 0): string => {
     const currentIndent = indent.repeat(level);
     const nextIndent = indent.repeat(level + 1);
     
