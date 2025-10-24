@@ -8,7 +8,7 @@
       'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Pete</span> &lt;<a href=\"mailto:pete@silly.example\" class=\"mp_address_email\">pete@silly.example</a>&gt;</span>"
       'text': "\"Pete\" <pete@silly.example>"
     )
-    `to`: | 'address_list' [ (
+    `to`: | 'address list' [ (
       'value': [ (
         'name': "A Group"
         'address': ~
@@ -16,7 +16,7 @@
       'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">A Group: </span><span class=\"mp_address_group\"><span class=\"mp_address_name\">Ed Jones</span> &lt;<a href=\"mailto:c@a.test\" class=\"mp_address_email\">c@a.test</a>&gt;</span>, <span class=\"mp_address_group\"><a href=\"mailto:joe@where.test\" class=\"mp_address_email\">joe@where.test</a></span>, <span class=\"mp_address_group\"><span class=\"mp_address_name\">John</span> &lt;<a href=\"mailto:jdoe@one.test\" class=\"mp_address_email\">jdoe@one.test</a>&gt;</span>;</span>"
       'text': "\"A Group\": \"Ed Jones\" <c@a.test>, joe@where.test, \"John\" <jdoe@one.test>;"
     ) ]
-    `cc`: | 'address_list' [ (
+    `cc`: | 'address list' [ (
       'value': [ (
         'name': "Undisclosed recipients"
         'address': ~
@@ -25,7 +25,7 @@
       'text': "\"Undisclosed recipients\": ;"
     ) ]
     `date`: | 'date' "1969-02-14T03:02:54.000Z"
-    `message-id`: | 'message_id' "<testabcd.1234@silly.example>"
+    `message-id`: | 'message id' "<testabcd.1234@silly.example>"
   }
   'subject': ~
   'from': (

@@ -1,6 +1,9 @@
 (
   'headers': {
-    `404`: | 'unknown' "Not Found"
+    `404`: | 'unknown' (
+      'key': "404"
+      'value': "Not Found"
+    )
   }
   'subject': ~
   'from': ~

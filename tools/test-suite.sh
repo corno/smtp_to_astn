@@ -43,7 +43,7 @@ run_regression_test() {
     fi
     
     # Run the test and capture output
-    if actual_output=$(cat "$source_file" | node dist/index.js 2>&1); then
+    if actual_output=$(cat "$source_file" | node dist/bin/smtp-to-astn.js 2>&1); then
         expected_output=$(cat "$expected_file")
         
         # Compare the ASTN outputs directly (text comparison)

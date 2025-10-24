@@ -117,7 +117,7 @@ const Header_Value = (headerValue: d_in.Header_Value): d_out.Value => {
 
     switch (headerType) {
         case 'unstructured':
-            return state(headerType, string(value)) 
+            return state(headerType, string(value))
 
         case 'date':
             return state(headerType, date(value))
@@ -125,27 +125,27 @@ const Header_Value = (headerValue: d_in.Header_Value): d_out.Value => {
         case 'address':
             return state(headerType, Address_Object(value))
 
-        case 'address_list':
+        case 'address list':
             return state(headerType, array(value, Address_Object))
 
-        case 'message_id':
+        case 'message id':
             return state(headerType, string(value))
 
-        case 'message_id_list':
+        case 'message id list':
             return state(headerType, array(value, string))
 
-        case 'content_type':
+        case 'content type':
             const contentTypeObj: { [key: string]: d_out.Value } = {
                 value: string(value.value),
                 params: object(value.params, ($) => string($))
             }
             return state(headerType, verbose_group(_ea.dictionary_literal(contentTypeObj)))
 
-        case 'mime_version':
-        case 'content_encoding':
+        case 'mime version':
+        case 'content encoding':
             return state(headerType, string(value))
 
-        case 'content_disposition':
+        case 'content disposition':
             const dispositionObj: { [key: string]: d_out.Value } = {
                 value: string(value.value),
                 params: object(value.params, ($) => string($))
@@ -185,12 +185,21 @@ const Header_Value = (headerValue: d_in.Header_Value): d_out.Value => {
         case 'keywords':
             return state(headerType, array(value, string))
 
-        case 'unknown':
+        case 'raw received':
             return state(headerType, string(value))
+        case 'resent from':
+            return state(headerType, string(value))
+        case 'resent to':
+            return state(headerType, string(value))
+        case 'x-mailer':
+            return state(headerType, string(value))
+        case 'unknown':
+            return state(headerType, verbose_group(_ea.dictionary_literal({
+                'key': string(value.key),
+                'value': string(value.value)
+            })))
 
-        default:
-            // Fallback for any unhandled header types
-            return state('unknown', string(String(value)))
+        default: return _ea.au(headerType)
     }
 }
 

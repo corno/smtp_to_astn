@@ -8,7 +8,7 @@
       'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Joe Q. Public</span> &lt;<a href=\"mailto:john.q.public@example.com\" class=\"mp_address_email\">john.q.public@example.com</a>&gt;</span>"
       'text': "\"Joe Q. Public\" <john.q.public@example.com>"
     )
-    `to`: | 'address_list' [ (
+    `to`: | 'address list' [ (
       'value': [ (
         'name': "Mary Smith"
         'address': "mary@x.test"
@@ -22,7 +22,7 @@
       'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Mary Smith</span> &lt;<a href=\"mailto:mary@x.test\" class=\"mp_address_email\">mary@x.test</a>&gt;</span>, <span class=\"mp_address_group\"><a href=\"mailto:jdoe@example.org\" class=\"mp_address_email\">jdoe@example.org</a></span>, <span class=\"mp_address_group\"><span class=\"mp_address_name\">Who?</span> &lt;<a href=\"mailto:one@y.test\" class=\"mp_address_email\">one@y.test</a>&gt;</span>"
       'text': "\"Mary Smith\" <mary@x.test>, jdoe@example.org, \"Who?\" <one@y.test>"
     ) ]
-    `cc`: | 'address_list' [ (
+    `cc`: | 'address list' [ (
       'value': [ (
         'name': ""
         'address': "boss@nil.test"
@@ -34,7 +34,7 @@
       'text': "boss@nil.test, \"Giant; \"Big\" Box\" <sysservices@example.net>"
     ) ]
     `date`: | 'date' "2003-07-01T08:52:37.000Z"
-    `message-id`: | 'message_id' "<5678.21-Nov-1997@example.com>"
+    `message-id`: | 'message id' "<5678.21-Nov-1997@example.com>"
   }
   'subject': ~
   'from': (

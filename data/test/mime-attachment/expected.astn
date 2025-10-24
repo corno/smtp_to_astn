@@ -1,6 +1,6 @@
 (
   'headers': {
-    `mime-version`: | 'mime_version' "1.0"
+    `mime-version`: | 'mime version' "1.0"
     `from`: | 'address' (
       'value': [ (
         'name': ""
@@ -9,7 +9,7 @@
       'html': "<span class=\"mp_address_group\"><a href=\"mailto:support@example.com\" class=\"mp_address_email\">support@example.com</a></span>"
       'text': "support@example.com"
     )
-    `to`: | 'address_list' [ (
+    `to`: | 'address list' [ (
       'value': [ (
         'name': ""
         'address': "user@test.com"
@@ -19,8 +19,8 @@
     ) ]
     `subject`: | 'unstructured' "Document Attachment"
     `date`: | 'date' "2025-10-25T15:00:00.000Z"
-    `message-id`: | 'message_id' "<attachment-test@example.com>"
-    `content-type`: | 'content_type' (
+    `message-id`: | 'message id' "<attachment-test@example.com>"
+    `content-type`: | 'content type' (
       'value': "multipart/mixed"
       'params': {
         `boundary`: "mixed-boundary"

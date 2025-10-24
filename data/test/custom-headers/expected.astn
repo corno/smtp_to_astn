@@ -8,7 +8,7 @@
       'html': "<span class=\"mp_address_group\"><a href=\"mailto:newsletter@company.com\" class=\"mp_address_email\">newsletter@company.com</a></span>"
       'text': "newsletter@company.com"
     )
-    `to`: | 'address_list' [ (
+    `to`: | 'address list' [ (
       'value': [ (
         'name': ""
         'address': "subscribers@company.com"
@@ -18,11 +18,17 @@
     ) ]
     `subject`: | 'unstructured' "Weekly Newsletter"
     `date`: | 'date' "2025-10-25T16:00:00.000Z"
-    `message-id`: | 'message_id' "<newsletter-123@company.com>"
+    `message-id`: | 'message id' "<newsletter-123@company.com>"
     `keywords`: | 'keywords' [ "newsletter" "updates" "announcements" ]
-    `x-mailer`: | 'unknown' "CompanyMailer 2.0"
-    `priority`: | 'unknown' "normal"
-    `list`: | 'unknown' "[object Object]"
+    `x-mailer`: | 'x-mailer' "CompanyMailer 2.0"
+    `priority`: | 'unknown' (
+      'key': "priority"
+      'value': "normal"
+    )
+    `list`: | 'unknown' (
+      'key': "list"
+      'value': "[object Object]"
+    )
   }
   'subject': "Weekly Newsletter"
   'from': (

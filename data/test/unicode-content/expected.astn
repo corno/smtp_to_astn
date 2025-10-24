@@ -8,7 +8,7 @@
       'html': "<span class=\"mp_address_group\"><a href=\"mailto:notification@service.com\" class=\"mp_address_email\">notification@service.com</a></span>"
       'text': "notification@service.com"
     )
-    `to`: | 'address_list' [ (
+    `to`: | 'address list' [ (
       'value': [ (
         'name': ""
         'address': "user@example.com"
@@ -16,7 +16,7 @@
       'html': "<span class=\"mp_address_group\"><a href=\"mailto:user@example.com\" class=\"mp_address_email\">user@example.com</a></span>"
       'text': "user@example.com"
     ) ]
-    `bcc`: | 'address_list' [ (
+    `bcc`: | 'address list' [ (
       'value': [ (
         'name': ""
         'address': "admin@service.com"
@@ -26,14 +26,14 @@
     ) ]
     `subject`: | 'unstructured' "Test message with UTF-8 subject"
     `date`: | 'date' "2025-10-25T17:00:00.000Z"
-    `message-id`: | 'message_id' "<unicode-test@service.com>"
-    `content-type`: | 'content_type' (
+    `message-id`: | 'message id' "<unicode-test@service.com>"
+    `content-type`: | 'content type' (
       'value': "text/plain"
       'params': {
         `charset`: "utf-8"
       }
     )
-    `content-transfer-encoding`: | 'content_encoding' "8bit"
+    `content-transfer-encoding`: | 'content encoding' "8bit"
   }
   'subject': "Test message with UTF-8 subject"
   'from': (

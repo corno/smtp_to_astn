@@ -31,36 +31,36 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
     if (lowerKey === 'to' || lowerKey === 'cc' || lowerKey === 'bcc' || lowerKey === 'reply-to' ||
         lowerKey.startsWith('resent-to') || lowerKey.startsWith('resent-cc') || lowerKey.startsWith('resent-bcc')) {
         if (Array.isArray(value)) {
-            return ['address_list', _ea.array_literal(value.map(addr => normalizeAddressObject(addr as d_in.AddressObject)))]
+            return ['address list', _ea.array_literal(value.map(addr => normalizeAddressObject(addr as d_in.AddressObject)))]
         } else if (value && typeof value === 'object') {
-            return ['address_list', _ea.array_literal([normalizeAddressObject(value as d_in.AddressObject)])]
+            return ['address list', _ea.array_literal([normalizeAddressObject(value as d_in.AddressObject)])]
         }
     }
 
     // Message ID fields
     if (lowerKey === 'message-id' || lowerKey.startsWith('resent-message-id')) {
-        return ['message_id', String(value)]
+        return ['message id', String(value)]
     }
 
     // Message ID lists (References, In-Reply-To)
     if (lowerKey === 'references' || lowerKey === 'in-reply-to') {
         if (Array.isArray(value)) {
-            return ['message_id_list', _ea.array_literal(value.map(String))]
+            return ['message id list', _ea.array_literal(value.map(String))]
         } else if (value) {
-            return ['message_id_list', _ea.array_literal([String(value)])]
+            return ['message id list', _ea.array_literal([String(value)])]
         }
-        return ['message_id_list', _ea.array_literal([])]
+        return ['message id list', _ea.array_literal([])]
     }
 
     // Content-Type
     if (lowerKey === 'content-type') {
         if (value && typeof value === 'object' && value.value) {
-            return ['content_type', {
+            return ['content type', {
                 value: value.value,
                 params: _ea.dictionary_literal(value.params ? value.params : {})
             }]
         }
-        return ['content_type', {
+        return ['content type', {
             value: String(value),
             params: _ea.dictionary_literal({})
         }]
@@ -68,23 +68,35 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
 
     // MIME Version
     if (lowerKey === 'mime-version') {
-        return ['mime_version', String(value)]
+        return ['mime version', String(value)]
+    }
+    // Resent-From
+    if (lowerKey === 'resent-from') {
+        return ['resent from', String(value)]
+    }
+    // X-Mailer
+    if (lowerKey === 'x-mailer') {
+        return ['x-mailer', String(value)]
+    }
+    // Resent-To
+    if (lowerKey === 'resent-to') {
+        return ['resent to', String(value)]
     }
 
     // Content encoding
     if (lowerKey === 'content-transfer-encoding') {
-        return ['content_encoding', String(value)]
+        return ['content encoding', String(value)]
     }
 
     // Content disposition
     if (lowerKey === 'content-disposition') {
         if (value && typeof value === 'object' && value.value) {
-            return ['content_disposition', {
+            return ['content disposition', {
                 value: value.value,
                 params: _ea.dictionary_literal(value.params ? value.params : {})
             }]
         }
-        return ['content_disposition', {
+        return ['content disposition', {
             value: String(value),
             params: _ea.dictionary_literal({})
         }]
@@ -118,12 +130,15 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
                 date: value.date instanceof Date ? value.date : new Date()
             }]
         }
-        // If it's a string (raw received header), treat as unknown
-        return ['unknown', String(value)]
+        // If it's a string (raw received header)
+        return ['raw received', String(value)]
     }
 
     // Default: treat as unstructured text
-    return ['unknown', String(value)]
+    return ['unknown', {
+        'key': lowerKey,
+        'value': String(value)
+    }]
 }
 
 /**

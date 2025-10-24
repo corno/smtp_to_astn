@@ -1,6 +1,6 @@
 (
   'headers': {
-    `received`: | 'unknown' "from x.y.test by example.net via TCP with ESMTP id ABC12345 for <mary@example.net>;  21 Nov 1997 10:05:43 -0600,from node.example by x.y.test; 21 Nov 1997 10:01:22 -0600"
+    `received`: | 'raw received' "from x.y.test by example.net via TCP with ESMTP id ABC12345 for <mary@example.net>;  21 Nov 1997 10:05:43 -0600,from node.example by x.y.test; 21 Nov 1997 10:01:22 -0600"
     `from`: | 'address' (
       'value': [ (
         'name': "John Doe"
@@ -9,7 +9,7 @@
       'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:jdoe@node.example\" class=\"mp_address_email\">jdoe@node.example</a>&gt;</span>"
       'text': "\"John Doe\" <jdoe@node.example>"
     )
-    `to`: | 'address_list' [ (
+    `to`: | 'address list' [ (
       'value': [ (
         'name': "Mary Smith"
         'address': "mary@example.net"
@@ -19,7 +19,7 @@
     ) ]
     `subject`: | 'unstructured' "Saying Hello"
     `date`: | 'date' "1997-11-21T15:55:06.000Z"
-    `message-id`: | 'message_id' "<1234@local.node.example>"
+    `message-id`: | 'message id' "<1234@local.node.example>"
   }
   'subject': "Saying Hello"
   'from': (

@@ -8,7 +8,7 @@
       'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Pete chap)</span> &lt;<a href=\"mailto:pete(his account)@silly.test(his host)\" class=\"mp_address_email\">pete(his account)@silly.test(his host)</a>&gt;</span>"
       'text': "\"Pete chap)\" <pete(his account)@silly.test(his host)>"
     )
-    `to`: | 'address_list' [ (
+    `to`: | 'address list' [ (
       'value': [ (
         'name': "A Group"
         'address': ~
@@ -19,7 +19,7 @@
       'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">A Group: </span><span class=\"mp_address_group\"><span class=\"mp_address_name\">Chris Jones</span> &lt;<a href=\"mailto:c@(Chris&#x27;s host.)public.example\" class=\"mp_address_email\">c@(Chris&#x27;s host.)public.example</a>&gt;</span>, <span class=\"mp_address_group\"><a href=\"mailto:joe@example.org\" class=\"mp_address_email\">joe@example.org</a></span>, <span class=\"mp_address_group\"><span class=\"mp_address_name\">John</span> &lt;<a href=\"mailto:jdoe@one.test\" class=\"mp_address_email\">jdoe@one.test</a>&gt;</span>;</span>, <span class=\"mp_address_group\"><span class=\"mp_address_name\">the end of the group</span></span>"
       'text': "\"A Group\": \"Chris Jones\" <c@(Chris's host.)public.example>, joe@example.org, \"John\" <jdoe@one.test>;, \"the end of the group\""
     ) ]
-    `cc`: | 'address_list' [ (
+    `cc`: | 'address list' [ (
       'value': [ (
         'name': "Hidden recipients"
         'address': ~
@@ -28,7 +28,7 @@
       'text': "\"Hidden recipients\": \")\";"
     ) ]
     `date`: | 'date' "1969-02-14T03:02:00.000Z"
-    `message-id`: | 'message_id' "<testabcd.1234@silly.test>"
+    `message-id`: | 'message id' "<testabcd.1234@silly.test>"
   }
   'subject': ~
   'from': (

@@ -45,7 +45,7 @@ generate_expected() {
     fi
     
     # Generate the expected output
-    if output=$(cat "$source_file" | node dist/index.js 2>&1); then
+    if output=$(cat "$source_file" | node dist/bin/smtp-to-astn.js 2>&1); then
         # Just save the output directly (it's ASTN format, not JSON)
         echo "$output" > "$expected_file"
         echo "✅ Generated expected.astn"

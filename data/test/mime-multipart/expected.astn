@@ -1,6 +1,6 @@
 (
   'headers': {
-    `mime-version`: | 'mime_version' "1.0"
+    `mime-version`: | 'mime version' "1.0"
     `from`: | 'address' (
       'value': [ (
         'name': "John Doe"
@@ -9,7 +9,7 @@
       'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:john@example.com\" class=\"mp_address_email\">john@example.com</a>&gt;</span>"
       'text': "\"John Doe\" <john@example.com>"
     )
-    `to`: | 'address_list' [ (
+    `to`: | 'address list' [ (
       'value': [ (
         'name': ""
         'address': "mary@example.net"
@@ -19,8 +19,8 @@
     ) ]
     `subject`: | 'unstructured' "Multipart MIME Example"
     `date`: | 'date' "2025-10-25T14:30:00.000Z"
-    `message-id`: | 'message_id' "<mime-test@example.com>"
-    `content-type`: | 'content_type' (
+    `message-id`: | 'message id' "<mime-test@example.com>"
+    `content-type`: | 'content type' (
       'value': "multipart/alternative"
       'params': {
         `boundary`: "boundary-alt"

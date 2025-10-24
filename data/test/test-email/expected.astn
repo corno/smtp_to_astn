@@ -9,7 +9,7 @@
       'html': "<span class=\"mp_address_group\"><a href=\"mailto:sender@example.com\" class=\"mp_address_email\">sender@example.com</a></span>"
       'text': "sender@example.com"
     )
-    `to`: | 'address_list' [ (
+    `to`: | 'address list' [ (
       'value': [ (
         'name': ""
         'address': "recipient@example.com"
@@ -18,9 +18,9 @@
       'text': "recipient@example.com"
     ) ]
     `subject`: | 'unstructured' "Test Email"
-    `message-id`: | 'message_id' "<12345@example.com>"
-    `mime-version`: | 'mime_version' "1.0"
-    `content-type`: | 'content_type' (
+    `message-id`: | 'message id' "<12345@example.com>"
+    `mime-version`: | 'mime version' "1.0"
+    `content-type`: | 'content type' (
       'value': "multipart/mixed"
       'params': {
         `boundary`: "boundary123"

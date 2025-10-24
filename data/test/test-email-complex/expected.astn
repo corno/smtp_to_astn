@@ -9,7 +9,7 @@
       'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:john@example.com\" class=\"mp_address_email\">john@example.com</a>&gt;</span>"
       'text': "\"John Doe\" <john@example.com>"
     )
-    `to`: | 'address_list' [ (
+    `to`: | 'address list' [ (
       'value': [ (
         'name': "Jane Smith"
         'address': "jane@example.com"
@@ -20,7 +20,7 @@
       'html': "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Jane Smith</span> &lt;<a href=\"mailto:jane@example.com\" class=\"mp_address_email\">jane@example.com</a>&gt;</span>, <span class=\"mp_address_group\"><a href=\"mailto:bob@company.com\" class=\"mp_address_email\">bob@company.com</a></span>"
       'text': "\"Jane Smith\" <jane@example.com>, bob@company.com"
     ) ]
-    `cc`: | 'address_list' [ (
+    `cc`: | 'address list' [ (
       'value': [ (
         'name': ""
         'address': "team@company.com"
@@ -29,11 +29,11 @@
       'text': "team@company.com"
     ) ]
     `subject`: | 'unstructured' "Project Update with Attachment"
-    `message-id`: | 'message_id' "<project-update-2025@example.com>"
-    `in-reply-to`: | 'message_id_list' [ "<original-message@example.com>" ]
-    `references`: | 'message_id_list' [ "<thread-start@example.com>" "<original-message@example.com>" ]
-    `mime-version`: | 'mime_version' "1.0"
-    `content-type`: | 'content_type' (
+    `message-id`: | 'message id' "<project-update-2025@example.com>"
+    `in-reply-to`: | 'message id list' [ "<original-message@example.com>" ]
+    `references`: | 'message id list' [ "<thread-start@example.com>" "<original-message@example.com>" ]
+    `mime-version`: | 'mime version' "1.0"
+    `content-type`: | 'content type' (
       'value': "multipart/mixed"
       'params': {
         `boundary`: "boundary456"

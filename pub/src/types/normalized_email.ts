@@ -47,19 +47,22 @@ export interface Mail {
 
 // Tagged union for different header value types
 export type Header_Value = 
+    | ["resent from", string]
+    | ["resent to", string]
+    | ["x-mailer", string]
     | ["unstructured", string]                    // Simple text headers like Subject, Comments
     | ["date", Date]                             // Date headers
     | ["address", Address_Object]                 // Single address headers like From, Sender
-    | ["address_list", _et.Array<Address_Object>]          // Multiple address headers like To, Cc
-    | ["message_id", string]                     // Message-ID format
-    | ["message_id_list", _et.Array<string>]              // References, In-Reply-To (can be multiple)
-    | ["content_type", {                         // Content-Type with parameters
+    | ["address list", _et.Array<Address_Object>]          // Multiple address headers like To, Cc
+    | ["message id", string]                     // Message-ID format
+    | ["message id list", _et.Array<string>]              // References, In-Reply-To (can be multiple)
+    | ["content type", {                         // Content-Type with parameters
         value: string
         params: _et.Dictionary<string>
     }]
-    | ["mime_version", string]                   // MIME-Version
-    | ["content_encoding", string]               // Content-Transfer-Encoding
-    | ["content_disposition", {                  // Content-Disposition with parameters
+    | ["mime version", string]                   // MIME-Version
+    | ["content encoding", string]               // Content-Transfer-Encoding
+    | ["content disposition", {                  // Content-Disposition with parameters
         value: string
         params: _et.Dictionary<string>
     }]
@@ -72,5 +75,9 @@ export type Header_Value =
         for: _et.Optional_Value<string>
         date: Date
     }]
+    | ["raw received", string]               // Raw Received header
     | ["keywords", _et.Array<string>]                     // Keywords field (comma-separated)
-    | ["unknown", string]                       // Fallback for unrecognized headers
+    | ["unknown", {
+        'key': string
+        'value': string
+    }]                       // Fallback for unrecognized headers
