@@ -23,8 +23,5 @@
     "test-suite": "./test-suite.sh",
     "install-deps": "cd pub && npm install",
     "generate-expected": "./generate-expected.sh"
-  },
-  "workspaces": [
-    "pub"
-  ]
+  }
 }

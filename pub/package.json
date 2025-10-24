@@ -1,5 +1,4 @@
 {
-  "name": "smtp-to-json",
   "main": "dist/index.js",
   "bin": {
     "smtp-to-json": "./dist/index.js"
@@ -8,6 +7,7 @@
     "build": "tsc --project tsconfig.json"
   },
   "dependencies": {
+    "astn": "^0.111.21",
     "mailparser": "^3.6.5"
   },
   "devDependencies": {
