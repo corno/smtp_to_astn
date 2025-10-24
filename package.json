@@ -1,6 +1,6 @@
 {
   "name": "smtp-to-astn",
-  "version": "1.0.0",
+  "version": "0.99.0",
   "description": "A tool that converts SMTP messages from stdin to ASTN on stdout",
   "keywords": [
     "smtp",
