@@ -6,35 +6,40 @@ import * as d_out from "../../types/json"
 
 // Utility functions for converting primitive types
 const string = (value: string): d_out.Value => {
-    return ['string', value] as const;
-};
+    return ['string', value] as const
+}
 
 const number = (value: number): d_out.Value => {
     if (!isFinite(value)) {
-        return ['null'] as const;
+        return ['null'] as const
     }
-    return ['number', value] as const;
-};
+    return ['number', value] as const
+}
 
 const boolean = (value: boolean): d_out.Value => {
-    return ['boolean', value] as const;
-};
+    return ['boolean', value] as const
+}
 
 const null_ = (): d_out.Value => {
-    return ['null'] as const;
-};
+    return ['null'] as const
+}
 
 const date = (value: Date): d_out.Value => {
-    return ['string', value.toISOString()] as const;
-};
+    return ['string', value.toISOString()] as const
+}
 
-const array_old = <T>(arr: T[], converter: (item: T) => d_out.Value): d_out.Value => {
-    return ['array', arr.map(converter)] as const;
-};
+const object = <T>(obj: _et.Dictionary<T>, converter: (value: T) => d_out.Value): d_out.Value => {
+    const temp: { [key: string]: d_out.Value } = {}
+    obj.map(($, key) => {
+        temp[key] = converter($)
+    })
+    return ['object', temp]
+}
+
 
 const array = <T>(arr: _et.Array<T>, converter: (item: T) => d_out.Value): d_out.Value => {
-    return ['array', arr.__get_raw_copy().map(converter)] as const;
-};
+    return ['array', arr.__get_raw_copy().map(converter)] as const
+}
 
 // Convert Address
 const Address = (address: d_in.Address): d_out.Value => {
@@ -44,10 +49,10 @@ const Address = (address: d_in.Address): d_out.Value => {
             ($) => string($),
             () => null_()
         )
-    };
-    
-    return ['object', obj] as const;
-};
+    }
+
+    return ['object', obj] as const
+}
 
 // Convert Address_Object
 const Address_Object = (addressObj: d_in.Address_Object): d_out.Value => {
@@ -55,10 +60,10 @@ const Address_Object = (addressObj: d_in.Address_Object): d_out.Value => {
         value: array(addressObj.value, Address),
         html: string(addressObj.html),
         text: string(addressObj.text)
-    };
-    
-    return ['object', obj] as const;
-};
+    }
+
+    return ['object', obj] as const
+}
 
 // Convert Attachment
 const Attachment = (attachment: d_in.Attachment): d_out.Value => {
@@ -86,62 +91,52 @@ const Attachment = (attachment: d_in.Attachment): d_out.Value => {
             ($) => boolean($),
             () => boolean(false)
         )
-    };
-    
-    return ['object', obj] as const;
-};
+    }
+
+    return ['object', obj] as const
+}
 
 // Convert Header_Value
 const Header_Value = (headerValue: d_in.Header_Value): d_out.Value => {
-    const [headerType, value] = headerValue;
-    
+    const [headerType, value] = headerValue
+
     switch (headerType) {
         case 'unstructured':
-            return ['array', [string(headerType), string(value)]] as const;
-            
+            return ['array', [string(headerType), string(value)]] as const
+
         case 'date':
-            return ['array', [string(headerType), date(value)]] as const;
-            
+            return ['array', [string(headerType), date(value)]] as const
+
         case 'address':
-            return ['array', [string(headerType), Address_Object(value)]] as const;
-            
+            return ['array', [string(headerType), Address_Object(value)]] as const
+
         case 'address_list':
-            return ['array', [string(headerType), array(value, Address_Object)]] as const;
-            
+            return ['array', [string(headerType), array(value, Address_Object)]] as const
+
         case 'message_id':
-            return ['array', [string(headerType), string(value)]] as const;
-            
+            return ['array', [string(headerType), string(value)]] as const
+
         case 'message_id_list':
-            return ['array', [string(headerType), array(value, string)]] as const;
-            
+            return ['array', [string(headerType), array(value, string)]] as const
+
         case 'content_type':
             const contentTypeObj: { [key: string]: d_out.Value } = {
                 value: string(value.value),
-                params: value.params.transform(
-                    ($) => ['object', Object.fromEntries(
-                        Object.entries($).map(([k, v]) => [k, string(v)])
-                    )] as const,
-                    () => null_()
-                )
-            };
-            return ['array', [string(headerType), ['object', contentTypeObj]]] as const;
-            
+                params: object(value.params, ($) => string($))
+            }
+            return ['array', [string(headerType), ['object', contentTypeObj]]] as const
+
         case 'mime_version':
         case 'content_encoding':
-            return ['array', [string(headerType), string(value)]] as const;
-            
+            return ['array', [string(headerType), string(value)]] as const
+
         case 'content_disposition':
             const dispositionObj: { [key: string]: d_out.Value } = {
                 value: string(value.value),
-                params: value.params.transform(
-                    ($) => ['object', Object.fromEntries(
-                        Object.entries($).map(([k, v]) => [k, string(v)])
-                    )] as const,
-                    () => null_()
-                )
-            };
-            return ['array', [string(headerType), ['object', dispositionObj]]] as const;
-            
+                params: object(value.params, ($) => string($))
+            }
+            return ['array', [string(headerType), ['object', dispositionObj]]] as const
+
         case 'received':
             const receivedObj: { [key: string]: d_out.Value } = {
                 from: value.from.transform(
@@ -169,33 +164,25 @@ const Header_Value = (headerValue: d_in.Header_Value): d_out.Value => {
                     () => null_()
                 ),
                 date: date(value.date)
-            };
-            return ['array', [string(headerType), ['object', receivedObj]]] as const;
-            
+            }
+            return ['array', [string(headerType), ['object', receivedObj]]] as const
+
         case 'keywords':
-            return ['array', [string(headerType), array(value, string)]] as const;
-            
+            return ['array', [string(headerType), array(value, string)]] as const
+
         case 'unknown':
-            return ['array', [string(headerType), string(value)]] as const;
-            
+            return ['array', [string(headerType), string(value)]] as const
+
         default:
             // Fallback for any unhandled header types
-            return ['array', [string('unknown'), string(String(value))]] as const;
+            return ['array', [string('unknown'), string(String(value))]] as const
     }
-};
+}
 
 // Convert headers object
-const headers = (headers: { [key: string]: d_in.Header_Value }): d_out.Value => {
-    const obj: { [key: string]: d_out.Value } = {};
-    
-    for (const [key, hValue] of Object.entries(headers)) {
-        if (hValue !== undefined) {
-            obj[key] = Header_Value(hValue);
-        }
-    }
-    
-    return ['object', obj] as const;
-};
+const headers = (headers: _et.Dictionary<d_in.Header_Value>): d_out.Value => {
+    return object(headers, Header_Value)
+}
 
 // Main conversion function
 export const Mail = (mail: d_in.Mail): d_out.Value => {
@@ -231,7 +218,7 @@ export const Mail = (mail: d_in.Mail): d_out.Value => {
             () => null_()
         ),
         html: mail.html.transform(
-            ($) => $ !== false ? string($) : null_(),
+            ($) => string($),
             () => null_()
         ),
         textAsHtml: mail.textAsHtml.transform(
@@ -239,7 +226,7 @@ export const Mail = (mail: d_in.Mail): d_out.Value => {
             () => null_()
         ),
         attachments: array(mail.attachments, Attachment)
-    };
-    
-    return ['object', obj] as const;
-};
+    }
+
+    return ['object', obj] as const
+}

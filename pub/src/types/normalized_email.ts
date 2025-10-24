@@ -28,7 +28,7 @@ export interface Attachment {
 }
 
 export interface Mail {
-    headers: { [key: string]: Header_Value } // Raw headers map
+    headers: _et.Dictionary<Header_Value> // Raw headers map
     subject: _et.Optional_Value<string>
     from: _et.Optional_Value<Address_Object>      // Single object (RFC 5322 compliant)
     to: _et.Array<Address_Object>      // Always array
@@ -40,7 +40,7 @@ export interface Mail {
     inReplyTo: _et.Optional_Value<string>
     references: _et.Array<string>               // Always array
     text: _et.Optional_Value<string>
-    html: _et.Optional_Value<string | false>
+    html: _et.Optional_Value<string> // there is specific case where the html can be false, I'm not handling that
     textAsHtml: _et.Optional_Value<string>
     attachments: _et.Array<Attachment>
 }
@@ -55,13 +55,13 @@ export type Header_Value =
     | ["message_id_list", _et.Array<string>]              // References, In-Reply-To (can be multiple)
     | ["content_type", {                         // Content-Type with parameters
         value: string
-        params: _et.Optional_Value<{ [key: string]: string }>
+        params: _et.Dictionary<string>
     }]
     | ["mime_version", string]                   // MIME-Version
     | ["content_encoding", string]               // Content-Transfer-Encoding
     | ["content_disposition", {                  // Content-Disposition with parameters
         value: string
-        params: _et.Optional_Value<{ [key: string]: string }>
+        params: _et.Dictionary<string>
     }]
     | ["received", {                             // Received trace fields
         from: _et.Optional_Value<string>
