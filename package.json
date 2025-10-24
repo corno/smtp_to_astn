@@ -9,7 +9,7 @@
     "parser"
   ],
   "author": "",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/corno/smtp_to_astn.git"
@@ -18,10 +18,10 @@
     "build": "cd pub && npm run build",
     "start": "cd pub && node dist/index.js",
     "dev": "cd pub && npx ts-node src/index.ts",
-    "test": "cd pub && cat ../data/test/test-email/source.eml | node dist/index.js",
+    "test": "./tools/test-suite.sh",
     "test-complex": "cd pub && cat ../data/test/test-email-complex/source.eml | node dist/index.js",
-    "test-suite": "./test-suite.sh",
+    "test-suite": "./tools/test-suite.sh",
     "install-deps": "cd pub && npm install",
-    "generate-expected": "./generate-expected.sh"
+    "generate-expected": "./tools/generate-expected.sh"
   }
 }
