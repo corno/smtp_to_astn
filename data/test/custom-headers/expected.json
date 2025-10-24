@@ -1,0 +1,90 @@
+{
+  "attachments": [],
+  "date": "2025-10-25T16:00:00.000Z",
+  "from": {
+    "html": "<span class=\"mp_address_group\"><a href=\"mailto:newsletter@company.com\" class=\"mp_address_email\">newsletter@company.com</a></span>",
+    "text": "newsletter@company.com",
+    "value": [
+      {
+        "address": "newsletter@company.com",
+        "name": ""
+      }
+    ]
+  },
+  "headers": {
+    "date": [
+      "date",
+      "2025-10-25T16:00:00.000Z"
+    ],
+    "from": [
+      "address",
+      {
+        "html": "<span class=\"mp_address_group\"><a href=\"mailto:newsletter@company.com\" class=\"mp_address_email\">newsletter@company.com</a></span>",
+        "text": "newsletter@company.com",
+        "value": [
+          {
+            "address": "newsletter@company.com",
+            "name": ""
+          }
+        ]
+      }
+    ],
+    "keywords": [
+      "keywords",
+      [
+        "newsletter",
+        "updates",
+        "announcements"
+      ]
+    ],
+    "list": [
+      "unknown",
+      "[object Object]"
+    ],
+    "message-id": [
+      "message_id",
+      "<newsletter-123@company.com>"
+    ],
+    "priority": [
+      "unknown",
+      "normal"
+    ],
+    "subject": [
+      "unstructured",
+      "Weekly Newsletter"
+    ],
+    "to": [
+      "address_list",
+      [
+        {
+          "html": "<span class=\"mp_address_group\"><a href=\"mailto:subscribers@company.com\" class=\"mp_address_email\">subscribers@company.com</a></span>",
+          "text": "subscribers@company.com",
+          "value": [
+            {
+              "address": "subscribers@company.com",
+              "name": ""
+            }
+          ]
+        }
+      ]
+    ],
+    "x-mailer": [
+      "unknown",
+      "CompanyMailer 2.0"
+    ]
+  },
+  "messageId": "<newsletter-123@company.com>",
+  "subject": "Weekly Newsletter",
+  "text": "Welcome to our weekly newsletter!\n\nThis week's highlights:\n- Product updates\n- Company news\n- Industry insights\n\nThank you for subscribing!",
+  "textAsHtml": "<p>Welcome to our weekly newsletter!</p><p>This week&apos;s highlights:<br/>- Product updates<br/>- Company news<br/>- Industry insights</p><p>Thank you for subscribing!</p>",
+  "to": {
+    "html": "<span class=\"mp_address_group\"><a href=\"mailto:subscribers@company.com\" class=\"mp_address_email\">subscribers@company.com</a></span>",
+    "text": "subscribers@company.com",
+    "value": [
+      {
+        "address": "subscribers@company.com",
+        "name": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+MIME-Version: 1.0
+From: John Doe <john@example.com>
+To: mary@example.net
+Subject: Multipart MIME Example
+Date: Mon, 25 Oct 2025 14:30:00 +0000
+Message-ID: <mime-test@example.com>
+Content-Type: multipart/alternative; boundary="boundary-alt"
+
+--boundary-alt
+Content-Type: text/plain; charset=utf-8
+
+This is the plain text version of the message.
+
+--boundary-alt
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body>
+<p>This is the <strong>HTML</strong> version of the message.</p>
+</body>
+</html>
+
+--boundary-alt--

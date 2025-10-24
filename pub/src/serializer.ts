@@ -1,7 +1,9 @@
 import { JSON_Value } from './json-value.js';
 
 const escapeString = (str: string): string => {
-    return str
+    // Ensure we have a string
+    const safeStr = typeof str === 'string' ? str : String(str);
+    return safeStr
         .replace(/\\/g, '\\\\')
         .replace(/"/g, '\\"')
         .replace(/\n/g, '\\n')

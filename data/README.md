@@ -1,50 +1,85 @@
 # Test Data
 
-This directory contains sample email files for testing the SMTP to JSON converter.
+This directory contains comprehensive test data for the SMTP to JSON converter, including sample email files and a complete regression testing framework.
 
-## Files
+## Structure
 
-### `test/test-email.eml`
-A simple email with:
-- Basic headers (From, To, Subject, Date, Message-ID)
-- Multipart content (plain text and HTML)
-- No attachments
-
-### `test/test-email-complex.eml`
-A complex email with:
-- Multiple recipients (To, CC)
-- Named sender ("John Doe" <john@example.com>)
-- Thread information (In-Reply-To, References)
-- Multipart content with attachment
-- PDF attachment (base64 encoded)
-
-## Usage
-
-```bash
-# Test with simple email
-cat data/test/test-email.eml | node pub/dist/index.js
-
-# Test with complex email
-cat data/test/test-email-complex.eml | node pub/dist/index.js
-
-# Using the shell script
-./smtp-to-json.sh data/test/test-email.eml
-
-# Using npm scripts (from pub directory)
-npm test                # Uses test-email.eml
-npm run test-complex    # Uses test-email-complex.eml
+```
+data/
+├── README.md           # This file
+└── test/               # Test suite directory
+    ├── README.md       # Test suite documentation
+    ├── rfc-simple-addressing/
+    │   ├── source.eml
+    │   └── expected.json
+    ├── rfc-multiple-addresses/
+    │   ├── source.eml
+    │   └── expected.json
+    └── ... (14 test cases total)
 ```
 
-## Adding More Test Data
+## Quick Start
 
-To add more test emails:
-1. Save email files with `.eml` extension in this directory
-2. Use descriptive filenames (e.g., `test-email-with-images.eml`)
-3. Add corresponding npm scripts in `pub/package.json` if needed
+```bash
+# Run all regression tests
+./test-suite.sh
 
-## Email Format
+# Test with a specific email
+cat data/test/rfc-simple-addressing/source.eml | node pub/dist/index.js
 
-All files should be in standard RFC 5322 email format (SMTP message format), including:
-- Headers section
-- Empty line separator
-- Message body (can be multipart)
+# Generate expected outputs for new tests
+./generate-expected.sh
+```
+
+## Test Categories
+
+### RFC 5322 Compliance Tests (7 cases)
+Tests based on examples from RFC 5322 specification:
+- Simple addressing
+- Multiple addresses with special characters
+- Group addressing syntax
+- Reply messages and threading
+- Resent/forwarded messages
+- Trace fields and routing
+- Comments and whitespace handling
+
+### MIME Support Tests (2 cases)
+- Multipart/alternative messages
+- File attachments with base64 encoding
+
+### Real-world Scenarios (5 cases)
+- Custom X- headers
+- Unicode content and encoding
+- Complex multipart structures
+- Edge cases and malformed headers
+
+## Output Format
+
+All tests validate against a consistent tagged union schema:
+
+```json
+{
+  "headers": {
+    "subject": ["unstructured", "Hello World"],
+    "from": ["address", { "value": "sender@example.com", "name": "Sender Name" }],
+    "to": ["address_list", [{ "value": "recipient@example.com" }]],
+    "content-type": ["content_type", { "value": "text/plain", "params": {} }],
+    "date": ["date", "2025-01-24T10:30:00.000Z"],
+    "message-id": ["message_id", "<unique@example.com>"],
+    "references": ["message_id_list", ["<id1@example.com>"]],
+    "x-custom": ["unknown", "custom value"]
+  },
+  "attachments": [...],
+  "text": "Plain text content",
+  "html": "<html>HTML content</html>"
+}
+```
+
+## Development Workflow
+
+1. **Adding Tests**: Create new directory in `test/` with `source.eml`
+2. **Generating Expected**: Run `./generate-expected.sh` to create `expected.json`
+3. **Validation**: Run `./test-suite.sh` to verify all tests pass
+4. **Regression Testing**: Automated validation prevents breaking changes
+
+See `test/README.md` for detailed test suite documentation.

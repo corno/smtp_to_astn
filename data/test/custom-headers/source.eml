@@ -1,0 +1,18 @@
+From: newsletter@company.com
+To: subscribers@company.com
+Subject: Weekly Newsletter
+Date: Mon, 25 Oct 2025 16:00:00 +0000
+Message-ID: <newsletter-123@company.com>
+Keywords: newsletter, updates, announcements
+X-Mailer: CompanyMailer 2.0
+X-Priority: 3 (Normal)
+List-Unsubscribe: <mailto:unsubscribe@company.com>
+
+Welcome to our weekly newsletter!
+
+This week's highlights:
+- Product updates
+- Company news
+- Industry insights
+
+Thank you for subscribing!

@@ -4,7 +4,116 @@ import { simpleParser, ParsedMail, Attachment, AddressObject } from 'mailparser'
 import { JSON_Value } from './json-value.js';
 import { serializeJSONValue } from './serializer.js';
 import { convertSMTPMessage } from './converter.js';
-import { SMTPMessage } from './types.js';
+import { SMTPMessage, HeaderValue } from './types.js';
+
+// Function to convert mailparser output to our tagged union format
+const convertToHeaderValue = (key: string, value: any): HeaderValue => {
+    const lowerKey = key.toLowerCase();
+    
+    // Date fields
+    if (lowerKey === 'date' || lowerKey.startsWith('resent-date') || value instanceof Date) {
+        return ['date', value instanceof Date ? value : new Date(value)];
+    }
+    
+    // Address fields (single)
+    if (lowerKey === 'from' || lowerKey === 'sender' || lowerKey.startsWith('resent-from') || lowerKey.startsWith('resent-sender')) {
+        if (value && typeof value === 'object' && !Array.isArray(value)) {
+            return ['address', value as AddressObject];
+        }
+    }
+    
+    // Address fields (multiple)
+    if (lowerKey === 'to' || lowerKey === 'cc' || lowerKey === 'bcc' || lowerKey === 'reply-to' || 
+        lowerKey.startsWith('resent-to') || lowerKey.startsWith('resent-cc') || lowerKey.startsWith('resent-bcc')) {
+        if (Array.isArray(value)) {
+            return ['address_list', value as AddressObject[]];
+        } else if (value && typeof value === 'object') {
+            return ['address_list', [value as AddressObject]];
+        }
+    }
+    
+    // Message ID fields
+    if (lowerKey === 'message-id' || lowerKey.startsWith('resent-message-id')) {
+        return ['message_id', String(value)];
+    }
+    
+    // Message ID lists (References, In-Reply-To)
+    if (lowerKey === 'references' || lowerKey === 'in-reply-to') {
+        if (Array.isArray(value)) {
+            return ['message_id_list', value.map(String)];
+        } else if (value) {
+            return ['message_id_list', [String(value)]];
+        }
+        return ['message_id_list', []];
+    }
+    
+    // Content-Type
+    if (lowerKey === 'content-type') {
+        if (value && typeof value === 'object' && value.value) {
+            return ['content_type', {
+                value: value.value,
+                params: value.params || undefined
+            }];
+        }
+        return ['content_type', { value: String(value) }];
+    }
+    
+    // MIME Version
+    if (lowerKey === 'mime-version') {
+        return ['mime_version', String(value)];
+    }
+    
+    // Content encoding
+    if (lowerKey === 'content-transfer-encoding') {
+        return ['content_encoding', String(value)];
+    }
+    
+    // Content disposition
+    if (lowerKey === 'content-disposition') {
+        if (value && typeof value === 'object' && value.value) {
+            return ['content_disposition', {
+                value: value.value,
+                params: value.params || undefined
+            }];
+        }
+        return ['content_disposition', { value: String(value) }];
+    }
+    
+    // Keywords
+    if (lowerKey === 'keywords') {
+        if (Array.isArray(value)) {
+            return ['keywords', value.map(String)];
+        } else if (typeof value === 'string') {
+            return ['keywords', value.split(',').map(s => s.trim())];
+        }
+        return ['keywords', [String(value)]];
+    }
+    
+    // Unstructured text fields
+    if (lowerKey === 'subject' || lowerKey === 'comments') {
+        return ['unstructured', String(value)];
+    }
+    
+    // Received fields (simplified - mailparser usually parses these)
+    if (lowerKey === 'received') {
+        if (value && typeof value === 'object' && !Array.isArray(value)) {
+            return ['received', {
+                from: value.from ? String(value.from) : undefined,
+                by: value.by ? String(value.by) : undefined,
+                via: value.via ? String(value.via) : undefined,
+                with: value.with ? String(value.with) : undefined,
+                id: value.id ? String(value.id) : undefined,
+                for: value.for ? String(value.for) : undefined,
+                date: value.date instanceof Date ? value.date : new Date()
+            }];
+        }
+        // If it's a string (raw received header), treat as unknown
+        return ['unknown', String(value)];
+    }
+    
+    // Default: treat as unstructured text
+    return ['unknown', String(value)];
+};
 
 // Main build function using functional approach
 const buildSMTPJSON = (smtpMessage: SMTPMessage, indentSize: number = 2): string => {
@@ -146,11 +255,11 @@ async function parseEmailFromStdin(): Promise<void> {
         // Parse the email
         const parsed: ParsedMail = await simpleParser(emailBuffer);
 
-        // Convert headers to a plain object
-        const headers: { [key: string]: any } = {};
+        // Convert headers to our tagged union format
+        const headers: { [key: string]: HeaderValue } = {};
         if (parsed.headers) {
             for (const [key, value] of parsed.headers) {
-                headers[key] = value;
+                headers[key] = convertToHeaderValue(key, value);
             }
         }
 

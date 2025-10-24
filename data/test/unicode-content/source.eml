@@ -1,0 +1,15 @@
+From: notification@service.com
+To: user@example.com
+Bcc: admin@service.com
+Subject: =?UTF-8?B?VGVzdCBtZXNzYWdlIHdpdGggVVRGLTggc3ViamVjdA==?=
+Date: Mon, 25 Oct 2025 17:00:00 +0000
+Message-ID: <unicode-test@service.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+This message contains Unicode characters: 
+Français, Español, Deutsch, 中文, العربية, Русский
+
+Special symbols: ©™®€£¥₽
+
+Emoji: 🌟✨🚀📧

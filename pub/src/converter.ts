@@ -25,6 +25,46 @@ const convertDate = (date: Date): JSON_Value => {
     return ['string', date.toISOString()] as const;
 };
 
+// Generic object converter for unknown/complex objects
+const convertGenericObject = (obj: any): JSON_Value => {
+    if (obj === null || obj === undefined) {
+        return convertNull();
+    }
+    
+    if (typeof obj === 'string') {
+        return convertString(obj);
+    }
+    
+    if (typeof obj === 'number') {
+        return convertNumber(obj);
+    }
+    
+    if (typeof obj === 'boolean') {
+        return convertBoolean(obj);
+    }
+    
+    if (obj instanceof Date) {
+        return convertDate(obj);
+    }
+    
+    if (Array.isArray(obj)) {
+        return convertArray(obj, convertGenericObject);
+    }
+    
+    if (typeof obj === 'object') {
+        const result: { [key: string]: JSON_Value } = {};
+        for (const [key, value] of Object.entries(obj)) {
+            if (value !== undefined) {
+                result[key] = convertGenericObject(value);
+            }
+        }
+        return ['object', result] as const;
+    }
+    
+    // Fallback for any other types (functions, symbols, etc.)
+    return convertString(String(obj));
+};
+
 // Optional value converter
 const convertOptional = <T>(value: T | undefined, converter: (val: T) => JSON_Value): JSON_Value => {
     if (value === undefined || value === null) {
@@ -94,32 +134,96 @@ export namespace Convert {
     export const Headers = (headers: Headers): JSON_Value => {
         const obj: { [key: string]: JSON_Value } = {};
 
-        for (const [key, value] of Object.entries(headers)) {
-            if (value === undefined) {
+        for (const [key, headerValue] of Object.entries(headers)) {
+            if (headerValue === undefined) {
                 continue;
             }
             
-            if (value === null) {
-                obj[key] = convertNull();
-            } else if (typeof value === 'string') {
-                obj[key] = convertString(value);
-            } else if (typeof value === 'number') {
-                obj[key] = convertNumber(value);
-            } else if (typeof value === 'boolean') {
-                obj[key] = convertBoolean(value);
-            } else if (value instanceof Date) {
-                obj[key] = convertDate(value);
-            } else if (Array.isArray(value)) {
-                obj[key] = convertArray(value, (item) => {
-                    if (typeof item === 'string') return convertString(item);
-                    if (typeof item === 'number') return convertNumber(item);
-                    if (typeof item === 'boolean') return convertBoolean(item);
-                    return convertGenericObject(item);
-                });
-            } else if (typeof value === 'object') {
-                obj[key] = convertGenericObject(value);
-            } else {
-                obj[key] = convertString(String(value));
+            const [headerType, value] = headerValue;
+            
+            switch (headerType) {
+                case 'unstructured':
+                    obj[key] = ['array', [convertString(headerType), convertString(value)]] as const;
+                    break;
+                    
+                case 'date':
+                    obj[key] = ['array', [convertString(headerType), convertDate(value)]] as const;
+                    break;
+                    
+                case 'address':
+                    obj[key] = ['array', [convertString(headerType), AddressObject(value)]] as const;
+                    break;
+                    
+                case 'address_list':
+                    obj[key] = ['array', [convertString(headerType), convertArray(value, AddressObject)]] as const;
+                    break;
+                    
+                case 'message_id':
+                    obj[key] = ['array', [convertString(headerType), convertString(value)]] as const;
+                    break;
+                    
+                case 'message_id_list':
+                    obj[key] = ['array', [convertString(headerType), convertArray(value, convertString)]] as const;
+                    break;
+                    
+                case 'content_type':
+                    const contentTypeObj: { [key: string]: JSON_Value } = {
+                        value: convertString(value.value)
+                    };
+                    if (value.params) {
+                        const paramsObj: { [key: string]: JSON_Value } = {};
+                        for (const [paramKey, paramValue] of Object.entries(value.params)) {
+                            paramsObj[paramKey] = convertString(paramValue);
+                        }
+                        contentTypeObj.params = ['object', paramsObj] as const;
+                    }
+                    obj[key] = ['array', [convertString(headerType), ['object', contentTypeObj]]] as const;
+                    break;
+                    
+                case 'mime_version':
+                case 'content_encoding':
+                    obj[key] = ['array', [convertString(headerType), convertString(value)]] as const;
+                    break;
+                    
+                case 'content_disposition':
+                    const dispositionObj: { [key: string]: JSON_Value } = {
+                        value: convertString(value.value)
+                    };
+                    if (value.params) {
+                        const paramsObj: { [key: string]: JSON_Value } = {};
+                        for (const [paramKey, paramValue] of Object.entries(value.params)) {
+                            paramsObj[paramKey] = convertString(paramValue);
+                        }
+                        dispositionObj.params = ['object', paramsObj] as const;
+                    }
+                    obj[key] = ['array', [convertString(headerType), ['object', dispositionObj]]] as const;
+                    break;
+                    
+                case 'received':
+                    const receivedObj: { [key: string]: JSON_Value } = {
+                        date: convertDate(value.date)
+                    };
+                    if (value.from) receivedObj.from = convertString(value.from);
+                    if (value.by) receivedObj.by = convertString(value.by);
+                    if (value.via) receivedObj.via = convertString(value.via);
+                    if (value.with) receivedObj.with = convertString(value.with);
+                    if (value.id) receivedObj.id = convertString(value.id);
+                    if (value.for) receivedObj.for = convertString(value.for);
+                    obj[key] = ['array', [convertString(headerType), ['object', receivedObj]]] as const;
+                    break;
+                    
+                case 'keywords':
+                    obj[key] = ['array', [convertString(headerType), convertArray(value, convertString)]] as const;
+                    break;
+                    
+                case 'unknown':
+                    obj[key] = ['array', [convertString(headerType), convertString(value)]] as const;
+                    break;
+                    
+                default:
+                    // Fallback for any unhandled header types
+                    obj[key] = ['array', [convertString('unknown'), convertString(String(value))]] as const;
+                    break;
             }
         }
 
@@ -205,67 +309,3 @@ export const convertSMTPMessage = Convert.SMTPMessage;
 export const convertAttachment = Convert.Attachment;
 export const convertAddressObject = Convert.AddressObject;
 export const convertHeaders = Convert.Headers;
-
-// Generic object converter for unknown structures
-const convertGenericObject = (obj: any): JSON_Value => {
-    if (obj === null || obj === undefined) {
-        return convertNull();
-    }
-
-    const result: { [key: string]: JSON_Value } = {};
-    
-    for (const [key, value] of Object.entries(obj)) {
-        if (value === undefined) {
-            continue;
-        }
-        
-        if (value === null) {
-            result[key] = convertNull();
-        } else if (typeof value === 'string') {
-            result[key] = convertString(value);
-        } else if (typeof value === 'number') {
-            result[key] = convertNumber(value);
-        } else if (typeof value === 'boolean') {
-            result[key] = convertBoolean(value);
-        } else if (value instanceof Date) {
-            result[key] = convertDate(value);
-        } else if (Array.isArray(value)) {
-            result[key] = convertArray(value, convertGenericValue);
-        } else if (typeof value === 'object') {
-            result[key] = convertGenericObject(value);
-        } else {
-            result[key] = convertString(String(value));
-        }
-    }
-
-    return ['object', result] as const;
-};
-
-// Generic value converter
-const convertGenericValue = (value: any): JSON_Value => {
-    if (value === null || value === undefined) {
-        return convertNull();
-    }
-    if (typeof value === 'string') {
-        return convertString(value);
-    }
-    if (typeof value === 'number') {
-        return convertNumber(value);
-    }
-    if (typeof value === 'boolean') {
-        return convertBoolean(value);
-    }
-    if (value instanceof Date) {
-        return convertDate(value);
-    }
-    if (Array.isArray(value)) {
-        return convertArray(value, convertGenericValue);
-    }
-    if (typeof value === 'object') {
-        return convertGenericObject(value);
-    }
-    return convertString(String(value));
-};
-
-// Legacy function for backward compatibility
-export const toJSONValue = convertGenericValue;

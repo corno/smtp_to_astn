@@ -1,0 +1,30 @@
+{
+  "name": "smtp-to-json",
+  "version": "1.0.0",
+  "description": "A tool that converts SMTP messages from stdin to JSON on stdout",
+  "keywords": [
+    "smtp",
+    "email",
+    "json",
+    "parser"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/corno/smtp_to_astn.git"
+  },
+  "scripts": {
+    "build": "cd pub && npm run build",
+    "start": "cd pub && node dist/index.js",
+    "dev": "cd pub && npx ts-node src/index.ts",
+    "test": "cd pub && cat ../data/test/test-email/source.eml | node dist/index.js",
+    "test-complex": "cd pub && cat ../data/test/test-email-complex/source.eml | node dist/index.js",
+    "test-suite": "./test-suite.sh",
+    "install-deps": "cd pub && npm install",
+    "generate-expected": "./generate-expected.sh"
+  },
+  "workspaces": [
+    "pub"
+  ]
+}

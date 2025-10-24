@@ -1,0 +1,24 @@
+MIME-Version: 1.0
+From: support@example.com
+To: user@test.com
+Subject: Document Attachment
+Date: Mon, 25 Oct 2025 15:00:00 +0000
+Message-ID: <attachment-test@example.com>
+Content-Type: multipart/mixed; boundary="mixed-boundary"
+
+--mixed-boundary
+Content-Type: text/plain
+
+Please find the attached document.
+
+--mixed-boundary
+Content-Type: application/pdf; name="document.pdf"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="document.pdf"
+
+JVBERi0xLjQKJcOkw7zDtsO4CjIgMCBvYmoKPDwKL0xlbmd0aCAzIDAgUgovRmls
+dGVyIC9GbGF0ZURlY29kZQo+PgpzdHJlYW0KeJwrKs5wBgCC0AKRAo4Cjg==
+endstream
+endobj
+
+--mixed-boundary--
