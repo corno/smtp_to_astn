@@ -1,5 +1,7 @@
 {
   "attachments": [],
+  "bcc": null,
+  "cc": null,
   "date": "2025-10-25T16:00:00.000Z",
   "from": {
     "html": "<span class=\"mp_address_group\"><a href=\"mailto:newsletter@company.com\" class=\"mp_address_email\">newsletter@company.com</a></span>",
@@ -73,7 +75,11 @@
       "CompanyMailer 2.0"
     ]
   },
+  "html": null,
+  "inReplyTo": null,
   "messageId": "<newsletter-123@company.com>",
+  "references": null,
+  "replyTo": null,
   "subject": "Weekly Newsletter",
   "text": "Welcome to our weekly newsletter!\n\nThis week's highlights:\n- Product updates\n- Company news\n- Industry insights\n\nThank you for subscribing!",
   "textAsHtml": "<p>Welcome to our weekly newsletter!</p><p>This week&apos;s highlights:<br/>- Product updates<br/>- Company news<br/>- Industry insights</p><p>Thank you for subscribing!</p>",

@@ -1,12 +1,13 @@
 {
   "attachments": [],
+  "bcc": null,
   "cc": [
     {
       "html": "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Hidden recipients: </span><span class=\"mp_address_group\"><span class=\"mp_address_name\">)</span></span>;</span>",
       "text": "\"Hidden recipients\": \")\";",
       "value": [
         {
-          "address": "",
+          "address": null,
           "name": "Hidden recipients"
         }
       ]
@@ -32,7 +33,7 @@
           "text": "\"Hidden recipients\": \")\";",
           "value": [
             {
-              "address": "",
+              "address": null,
               "name": "Hidden recipients"
             }
           ]
@@ -68,7 +69,7 @@
           "text": "\"A Group\": \"Chris Jones\" <c@(Chris's host.)public.example>, joe@example.org, \"John\" <jdoe@one.test>;, \"the end of the group\"",
           "value": [
             {
-              "address": "",
+              "address": null,
               "name": "A Group"
             },
             {
@@ -80,7 +81,12 @@
       ]
     ]
   },
+  "html": null,
+  "inReplyTo": null,
   "messageId": "<testabcd.1234@silly.test>",
+  "references": null,
+  "replyTo": null,
+  "subject": null,
   "text": "Testing.",
   "textAsHtml": "<p>Testing.</p>",
   "to": [
@@ -89,7 +95,7 @@
       "text": "\"A Group\": \"Chris Jones\" <c@(Chris's host.)public.example>, joe@example.org, \"John\" <jdoe@one.test>;, \"the end of the group\"",
       "value": [
         {
-          "address": "",
+          "address": null,
           "name": "A Group"
         },
         {

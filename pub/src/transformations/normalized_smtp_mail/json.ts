@@ -154,7 +154,7 @@ export const Mail = (mail: d_in.Mail): d_out.Value => {
     const obj: { [key: string]: d_out.Value } = {
         headers: headers(mail.headers),
         subject: mail.subject !== undefined ? string(mail.subject) : null_(),
-        from: mail.from !== undefined ? array(mail.from, Address_Object) : null_(),
+        from: mail.from !== undefined ? Address_Object(mail.from) : null_(),
         to: mail.to !== undefined ? array(mail.to, Address_Object) : null_(),
         cc: mail.cc !== undefined ? array(mail.cc, Address_Object) : null_(),
         bcc: mail.bcc !== undefined ? array(mail.bcc, Address_Object) : null_(),

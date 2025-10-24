@@ -1,11 +1,16 @@
-import * as d_in from "mailparser"
+import * as d_in from 'mailparser';
 
 import * as d_out from "../types/normalized_email"
 
 /**
+ * Normalized types that provide a cleaner, more consistent interface
+ * than the raw mailparser output
+ */
+
+/**
  * Convert mailparser header value to our Header_Value tagged union format
  */
-function Header_Value(key: string, value: any): d_out.Header_Value {
+function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
     const lowerKey = key.toLowerCase();
     
     // Date fields
@@ -16,7 +21,7 @@ function Header_Value(key: string, value: any): d_out.Header_Value {
     // Address fields (single)
     if (lowerKey === 'from' || lowerKey === 'sender' || lowerKey.startsWith('resent-from') || lowerKey.startsWith('resent-sender')) {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
-            return ['address', Address_Object(value as d_in.AddressObject)];
+            return ['address', normalizeAddressObject(value as d_in.AddressObject)];
         }
     }
     
@@ -24,9 +29,9 @@ function Header_Value(key: string, value: any): d_out.Header_Value {
     if (lowerKey === 'to' || lowerKey === 'cc' || lowerKey === 'bcc' || lowerKey === 'reply-to' || 
         lowerKey.startsWith('resent-to') || lowerKey.startsWith('resent-cc') || lowerKey.startsWith('resent-bcc')) {
         if (Array.isArray(value)) {
-            return ['address_list', value.map(addr => Address_Object(addr as d_in.AddressObject))];
+            return ['address_list', value.map(addr => normalizeAddressObject(addr as d_in.AddressObject))];
         } else if (value && typeof value === 'object') {
-            return ['address_list', [Address_Object(value as d_in.AddressObject)]];
+            return ['address_list', [normalizeAddressObject(value as d_in.AddressObject)]];
         }
     }
     
@@ -116,21 +121,14 @@ function Header_Value(key: string, value: any): d_out.Header_Value {
 /**
  * Normalize a single AddressObject to our normalized format
  */
-function Address_Object(addressObj: d_in.AddressObject): d_out.Address_Object {
+function normalizeAddressObject(addressObj: d_in.AddressObject): d_out.Address_Object {
     return {
-        value: addressObj.value.map(emailAddr => Address(emailAddr)),
+        value: addressObj.value.map(emailAddr => ({
+            address: emailAddr.address,
+            name: emailAddr.name || ''
+        })),
         html: addressObj.html,
         text: addressObj.text
-    };
-}
-
-/**
- * Normalize a single Address to our normalized format
- */
-function Address(emailAddr: { address?: string; name?: string }): d_out.Address {
-    return {
-        address: emailAddr.address,
-        name: emailAddr.name || ''
     };
 }
 
@@ -142,13 +140,25 @@ function addresses(addr: d_in.AddressObject | d_in.AddressObject[] | undefined):
     
     const addresses = Array.isArray(addr) ? addr : [addr];
     
-    return addresses.map(Address_Object);
+    return addresses.map(normalizeAddressObject);
+}
+
+/**
+ * Normalize the from field to a single Address_Object (RFC 5322 compliant)
+ */
+function fromAddress(addr: d_in.AddressObject | d_in.AddressObject[] | undefined): d_out.Address_Object | undefined {
+    if (!addr) return undefined;
+    
+    // If it's an array, take the first address (RFC 5322 says there should be only one)
+    const singleAddr = Array.isArray(addr) ? addr[0] : addr;
+    
+    return singleAddr ? normalizeAddressObject(singleAddr) : undefined;
 }
 
 /**
  * Normalize references to always be an array
  */
-function references(refs: string | string[] | undefined): string[] | undefined {
+function normalizeReferences(refs: string | string[] | undefined): string[] | undefined {
     if (!refs) return undefined;
     return Array.isArray(refs) ? refs : [refs];
 }
@@ -156,8 +166,8 @@ function references(refs: string | string[] | undefined): string[] | undefined {
 /**
  * Normalize attachments from mailparser format to our format
  */
-function Attachment(att: d_in.Attachment): d_out.Attachment {
-    return {
+function normalizeAttachments(attachments: any[]): d_out.Attachment[] {
+    return attachments.map(att => ({
         filename: att.filename,
         contentType: att.contentType,
         contentDisposition: att.contentDisposition,
@@ -166,36 +176,43 @@ function Attachment(att: d_in.Attachment): d_out.Attachment {
         content: att.content ? att.content.toString('base64') : undefined,
         cid: att.cid,
         related: att.related || false
-    };
+    }));
 }
 
 /**
  * Transform raw mailparser output into a normalized, consistent format
+ * 
+ * This function handles:
+ * - Converting address unions to consistent arrays
+ * - Normalizing references to arrays
+ * - Converting attachments to base64 strings
+ * - Converting headers to tagged union format
+ * - Providing a cleaner, more predictable interface
  */
-export const Mail = ($: d_in.ParsedMail): d_out.Mail => {
+export function normalizeMailparserOutput(parsed: d_in.ParsedMail): d_out.Mail {
     // Convert headers to our tagged union format
     const headers: { [key: string]: d_out.Header_Value } = {};
-    if ($.headers) {
-        for (const [key, value] of $.headers) {
-            headers[key] = Header_Value(key, value);
+    if (parsed.headers) {
+        for (const [key, value] of parsed.headers) {
+            headers[key] = convertToHeaderValue(key, value);
         }
     }
 
     return {
         headers,
-        subject: $.subject,
-        from: addresses($.from),
-        to: addresses($.to),
-        cc: addresses($.cc),
-        bcc: addresses($.bcc),
-        replyTo: addresses($.replyTo),
-        date: $.date,
-        messageId: $.messageId,
-        inReplyTo: $.inReplyTo,
-        references: references($.references),
-        text: $.text,
-        html: $.html,
-        textAsHtml: $.textAsHtml,
-        attachments: ($.attachments || []).map(Attachment)
+        subject: parsed.subject,
+        from: fromAddress(parsed.from),
+        to: addresses(parsed.to),
+        cc: addresses(parsed.cc),
+        bcc: addresses(parsed.bcc),
+        replyTo: addresses(parsed.replyTo),
+        date: parsed.date,
+        messageId: parsed.messageId,
+        inReplyTo: parsed.inReplyTo,
+        references: normalizeReferences(parsed.references),
+        text: parsed.text,
+        html: parsed.html,
+        textAsHtml: parsed.textAsHtml,
+        attachments: normalizeAttachments(parsed.attachments || [])
     };
-};
+}

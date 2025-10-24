@@ -1,2 +1,5 @@
 /pub/node_modules
 /pub/dist
+
+# Test output files
+/data/test/**/actual.json

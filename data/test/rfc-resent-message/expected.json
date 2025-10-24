@@ -1,5 +1,7 @@
 {
   "attachments": [],
+  "bcc": null,
+  "cc": null,
   "date": "1997-11-21T15:55:06.000Z",
   "from": {
     "html": "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:jdoe@machine.example\" class=\"mp_address_email\">jdoe@machine.example</a>&gt;</span>",
@@ -69,7 +71,11 @@
       ]
     ]
   },
+  "html": null,
+  "inReplyTo": null,
   "messageId": "<1234@local.machine.example>",
+  "references": null,
+  "replyTo": null,
   "subject": "Saying Hello",
   "text": "This is a message just to say hello.\nSo, \"Hello\".",
   "textAsHtml": "<p>This is a message just to say hello.<br/>So, &quot;Hello&quot;.</p>",

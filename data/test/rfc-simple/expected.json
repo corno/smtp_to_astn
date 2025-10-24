@@ -1,9 +1,22 @@
 {
   "attachments": [],
+  "bcc": null,
+  "cc": null,
+  "date": null,
+  "from": null,
   "headers": {
     "404": [
       "unknown",
       "Not Found"
     ]
-  }
+  },
+  "html": null,
+  "inReplyTo": null,
+  "messageId": null,
+  "references": null,
+  "replyTo": null,
+  "subject": null,
+  "text": null,
+  "textAsHtml": null,
+  "to": null
 }

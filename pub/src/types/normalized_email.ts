@@ -30,7 +30,7 @@ export interface Attachment {
 export interface Mail {
     headers: { [key: string]: Header_Value }; // Raw headers map
     subject?: string;
-    from?: Address_Object[];    // Always array
+    from?: Address_Object;      // Single object (RFC 5322 compliant)
     to?: Address_Object[];      // Always array
     cc?: Address_Object[];      // Always array
     bcc?: Address_Object[];     // Always array

@@ -1,5 +1,6 @@
 {
   "attachments": [],
+  "bcc": null,
   "cc": [
     {
       "html": "<span class=\"mp_address_group\"><a href=\"mailto:boss@nil.test\" class=\"mp_address_email\">boss@nil.test</a></span>, <span class=\"mp_address_group\"><span class=\"mp_address_name\">Giant; &#x22;Big&#x22; Box</span> &lt;<a href=\"mailto:sysservices@example.net\" class=\"mp_address_email\">sysservices@example.net</a>&gt;</span>",
@@ -92,7 +93,12 @@
       ]
     ]
   },
+  "html": null,
+  "inReplyTo": null,
   "messageId": "<5678.21-Nov-1997@example.com>",
+  "references": null,
+  "replyTo": null,
+  "subject": null,
   "text": "Hi everyone.",
   "textAsHtml": "<p>Hi everyone.</p>",
   "to": [

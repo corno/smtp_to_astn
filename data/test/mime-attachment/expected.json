@@ -2,6 +2,7 @@
   "attachments": [
     {
       "checksum": "b5d8f167ec8da67e1cd1f1707b2acf98",
+      "cid": null,
       "content": "JVBERi0xLjQKJcOkw7zDtsO4CjIgMCBvYmoKPDwKL0xlbmd0aCAzIDAgUgovRmlsdGVyIC9GbGF0ZURlY29kZQo+PgpzdHJlYW0KeJwrKs5wBgCC0AKRAo4CjqG4",
       "contentDisposition": "attachment",
       "contentType": "application/pdf",
@@ -10,6 +11,8 @@
       "size": 93
     }
   ],
+  "bcc": null,
+  "cc": null,
   "date": "2025-10-25T15:00:00.000Z",
   "from": {
     "html": "<span class=\"mp_address_group\"><a href=\"mailto:support@example.com\" class=\"mp_address_email\">support@example.com</a></span>",
@@ -76,7 +79,11 @@
       ]
     ]
   },
+  "html": null,
+  "inReplyTo": null,
   "messageId": "<attachment-test@example.com>",
+  "references": null,
+  "replyTo": null,
   "subject": "Document Attachment",
   "text": "Please find the attached document.\n",
   "textAsHtml": "<p>Please find the attached document.</p>",
