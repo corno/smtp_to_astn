@@ -1,7 +1,7 @@
 {
   "attachments": [],
-  "bcc": null,
-  "cc": null,
+  "bcc": [],
+  "cc": [],
   "date": "2025-10-25T14:30:00.000Z",
   "from": {
     "html": "<span class=\"mp_address_group\"><span class=\"mp_address_name\">John Doe</span> &lt;<a href=\"mailto:john@example.com\" class=\"mp_address_email\">john@example.com</a>&gt;</span>",
@@ -71,8 +71,8 @@
   "html": "<html>\n<body>\n<p>This is the <strong>HTML</strong> version of the message.</p>\n</body>\n</html>\n",
   "inReplyTo": null,
   "messageId": "<mime-test@example.com>",
-  "references": null,
-  "replyTo": null,
+  "references": [],
+  "replyTo": [],
   "subject": "Multipart MIME Example",
   "text": "This is the plain text version of the message.\n",
   "textAsHtml": "<p>This is the plain text version of the message.</p>",

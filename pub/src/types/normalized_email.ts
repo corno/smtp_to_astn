@@ -6,43 +6,43 @@ import * as _et from 'exupery-core-types'
  */
 
 export interface Address {
-    address?: string;
-    name: string;
+    address: _et.Optional_Value<string>
+    name: string
 }
 
 export interface Address_Object {
-    value: Address[];
-    html: string;
-    text: string;
+    value: Address[]
+    html: string
+    text: string
 }
 
 export interface Attachment {
-    filename?: string;
-    contentType: string;
-    contentDisposition?: string;
-    checksum: string;
-    size: number;
-    content?: string; // base64 encoded
-    cid?: string;
-    related?: boolean;
+    filename: _et.Optional_Value<string>
+    contentType: string
+    contentDisposition: _et.Optional_Value<string>
+    checksum: string
+    size: number
+    content: _et.Optional_Value<string> // base64 encoded
+    cid: _et.Optional_Value<string>
+    related: _et.Optional_Value<boolean>
 }
 
 export interface Mail {
-    headers: { [key: string]: Header_Value }; // Raw headers map
-    subject?: string;
-    from?: Address_Object;      // Single object (RFC 5322 compliant)
-    to?: Address_Object[];      // Always array
-    cc?: Address_Object[];      // Always array
-    bcc?: Address_Object[];     // Always array
-    replyTo?: Address_Object[]; // Always array
-    date?: Date;
-    messageId?: string;
-    inReplyTo?: string;
-    references?: string[];               // Always array
-    text?: string;
-    html?: string | false;
-    textAsHtml?: string;
-    attachments: Attachment[];
+    headers: { [key: string]: Header_Value } // Raw headers map
+    subject: _et.Optional_Value<string>
+    from: _et.Optional_Value<Address_Object>      // Single object (RFC 5322 compliant)
+    to: Address_Object[]      // Always array
+    cc: Address_Object[]      // Always array
+    bcc: Address_Object[]     // Always array
+    replyTo: Address_Object[] // Always array
+    date: _et.Optional_Value<Date>
+    messageId: _et.Optional_Value<string>
+    inReplyTo: _et.Optional_Value<string>
+    references: string[]               // Always array
+    text: _et.Optional_Value<string>
+    html: _et.Optional_Value<string | false>
+    textAsHtml: _et.Optional_Value<string>
+    attachments: Attachment[]
 }
 
 // Tagged union for different header value types
@@ -54,23 +54,23 @@ export type Header_Value =
     | ["message_id", string]                     // Message-ID format
     | ["message_id_list", string[]]              // References, In-Reply-To (can be multiple)
     | ["content_type", {                         // Content-Type with parameters
-        value: string;
-        params?: { [key: string]: string };
+        value: string
+        params: _et.Optional_Value<{ [key: string]: string }>
     }]
     | ["mime_version", string]                   // MIME-Version
     | ["content_encoding", string]               // Content-Transfer-Encoding
     | ["content_disposition", {                  // Content-Disposition with parameters
-        value: string;
-        params?: { [key: string]: string };
+        value: string
+        params: _et.Optional_Value<{ [key: string]: string }>
     }]
     | ["received", {                             // Received trace fields
-        from?: string;
-        by?: string;
-        via?: string;
-        with?: string;
-        id?: string;
-        for?: string;
-        date: Date;
+        from: _et.Optional_Value<string>
+        by: _et.Optional_Value<string>
+        via: _et.Optional_Value<string>
+        with: _et.Optional_Value<string>
+        id: _et.Optional_Value<string>
+        for: _et.Optional_Value<string>
+        date: Date
     }]
     | ["keywords", string[]]                     // Keywords field (comma-separated)
-    | ["unknown", string];                       // Fallback for unrecognized headers
+    | ["unknown", string]                       // Fallback for unrecognized headers

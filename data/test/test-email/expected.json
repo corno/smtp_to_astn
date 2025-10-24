@@ -1,7 +1,7 @@
 {
   "attachments": [],
-  "bcc": null,
-  "cc": null,
+  "bcc": [],
+  "cc": [],
   "date": "2025-10-24T10:30:00.000Z",
   "from": {
     "html": "<span class=\"mp_address_group\"><a href=\"mailto:sender@example.com\" class=\"mp_address_email\">sender@example.com</a></span>",
@@ -71,8 +71,8 @@
   "html": "<p>This is a test email message.<br/>It has multiple lines of text content.</p><p>Best regards,<br/>Test Sender</p><br/>\n<html>\n<body>\n<h1>Test Email</h1>\n<p>This is a <strong>test email</strong> message.</p>\n<p>It has multiple lines of text content.</p>\n<p>Best regards,<br>Test Sender</p>\n</body>\n</html>\n",
   "inReplyTo": null,
   "messageId": "<12345@example.com>",
-  "references": null,
-  "replyTo": null,
+  "references": [],
+  "replyTo": [],
   "subject": "Test Email",
   "text": "This is a test email message.\nIt has multiple lines of text content.\n\nBest regards,\nTest Sender\n\nTEST EMAIL\n\nThis is a test email message.\n\nIt has multiple lines of text content.\n\nBest regards,\nTest Sender",
   "textAsHtml": "<p>This is a test email message.<br/>It has multiple lines of text content.</p><p>Best regards,<br/>Test Sender</p><br/>\n<p>TEST EMAIL</p><p>This is a test email message.</p><p>It has multiple lines of text content.</p><p>Best regards,<br/>Test Sender</p>",

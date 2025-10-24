@@ -1,6 +1,6 @@
 {
   "attachments": [],
-  "bcc": null,
+  "bcc": [],
   "cc": [
     {
       "html": "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Undisclosed recipients: </span>;</span>",
@@ -80,8 +80,8 @@
   "html": null,
   "inReplyTo": null,
   "messageId": "<testabcd.1234@silly.example>",
-  "references": null,
-  "replyTo": null,
+  "references": [],
+  "replyTo": [],
   "subject": null,
   "text": "Testing.",
   "textAsHtml": "<p>Testing.</p>",

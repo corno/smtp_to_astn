@@ -1,6 +1,6 @@
 {
   "attachments": [],
-  "bcc": null,
+  "bcc": [],
   "cc": [
     {
       "html": "<span class=\"mp_address_group\"><span class=\"mp_address_name\">Hidden recipients: </span><span class=\"mp_address_group\"><span class=\"mp_address_name\">)</span></span>;</span>",
@@ -73,7 +73,7 @@
               "name": "A Group"
             },
             {
-              "address": "",
+              "address": null,
               "name": "the end of the group"
             }
           ]
@@ -84,8 +84,8 @@
   "html": null,
   "inReplyTo": null,
   "messageId": "<testabcd.1234@silly.test>",
-  "references": null,
-  "replyTo": null,
+  "references": [],
+  "replyTo": [],
   "subject": null,
   "text": "Testing.",
   "textAsHtml": "<p>Testing.</p>",
@@ -99,7 +99,7 @@
           "name": "A Group"
         },
         {
-          "address": "",
+          "address": null,
           "name": "the end of the group"
         }
       ]

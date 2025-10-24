@@ -1,4 +1,6 @@
-import * as d_in from 'mailparser';
+import * as _ea from 'exupery-core-alg'
+
+import * as d_in from "mailparser"
 
 import * as d_out from "../types/normalized_email"
 
@@ -55,10 +57,13 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
         if (value && typeof value === 'object' && value.value) {
             return ['content_type', {
                 value: value.value,
-                params: value.params || undefined
+                params: value.params ? _ea.set(value.params) : _ea.not_set()
             }];
         }
-        return ['content_type', { value: String(value) }];
+        return ['content_type', { 
+            value: String(value), 
+            params: _ea.not_set()
+        }];
     }
     
     // MIME Version
@@ -76,10 +81,13 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
         if (value && typeof value === 'object' && value.value) {
             return ['content_disposition', {
                 value: value.value,
-                params: value.params || undefined
+                params: value.params ? _ea.set(value.params) : _ea.not_set()
             }];
         }
-        return ['content_disposition', { value: String(value) }];
+        return ['content_disposition', { 
+            value: String(value),
+            params: _ea.not_set()
+        }];
     }
     
     // Keywords
@@ -101,12 +109,12 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
     if (lowerKey === 'received') {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
             return ['received', {
-                from: value.from ? String(value.from) : undefined,
-                by: value.by ? String(value.by) : undefined,
-                via: value.via ? String(value.via) : undefined,
-                with: value.with ? String(value.with) : undefined,
-                id: value.id ? String(value.id) : undefined,
-                for: value.for ? String(value.for) : undefined,
+                from: value.from ? _ea.set(String(value.from)) : _ea.not_set(),
+                by: value.by ? _ea.set(String(value.by)) : _ea.not_set(),
+                via: value.via ? _ea.set(String(value.via)) : _ea.not_set(),
+                with: value.with ? _ea.set(String(value.with)) : _ea.not_set(),
+                id: value.id ? _ea.set(String(value.id)) : _ea.not_set(),
+                for: value.for ? _ea.set(String(value.for)) : _ea.not_set(),
                 date: value.date instanceof Date ? value.date : new Date()
             }];
         }
@@ -124,7 +132,7 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
 function normalizeAddressObject(addressObj: d_in.AddressObject): d_out.Address_Object {
     return {
         value: addressObj.value.map(emailAddr => ({
-            address: emailAddr.address,
+            address: emailAddr.address ? _ea.set(emailAddr.address) : _ea.not_set(),
             name: emailAddr.name || ''
         })),
         html: addressObj.html,
@@ -168,14 +176,14 @@ function normalizeReferences(refs: string | string[] | undefined): string[] | un
  */
 function normalizeAttachments(attachments: any[]): d_out.Attachment[] {
     return attachments.map(att => ({
-        filename: att.filename,
+        filename: att.filename ? _ea.set(att.filename) : _ea.not_set(),
         contentType: att.contentType,
-        contentDisposition: att.contentDisposition,
+        contentDisposition: att.contentDisposition ? _ea.set(att.contentDisposition) : _ea.not_set(),
         checksum: att.checksum,
         size: att.size,
-        content: att.content ? att.content.toString('base64') : undefined,
-        cid: att.cid,
-        related: att.related || false
+        content: att.content ? _ea.set(att.content.toString('base64')) : _ea.not_set(),
+        cid: att.cid ? _ea.set(att.cid) : _ea.not_set(),
+        related: att.related !== undefined ? _ea.set(att.related || false) : _ea.not_set()
     }));
 }
 
@@ -200,19 +208,22 @@ export function normalizeMailparserOutput(parsed: d_in.ParsedMail): d_out.Mail {
 
     return {
         headers,
-        subject: parsed.subject,
-        from: fromAddress(parsed.from),
-        to: addresses(parsed.to),
-        cc: addresses(parsed.cc),
-        bcc: addresses(parsed.bcc),
-        replyTo: addresses(parsed.replyTo),
-        date: parsed.date,
-        messageId: parsed.messageId,
-        inReplyTo: parsed.inReplyTo,
-        references: normalizeReferences(parsed.references),
-        text: parsed.text,
-        html: parsed.html,
-        textAsHtml: parsed.textAsHtml,
+        subject: parsed.subject === undefined ? _ea.not_set(): _ea.set(parsed.subject),
+        from: (() => {
+            const fromAddr = fromAddress(parsed.from);
+            return fromAddr === undefined ? _ea.not_set() : _ea.set(fromAddr);
+        })(),
+        to: addresses(parsed.to) || [],
+        cc: addresses(parsed.cc) || [],
+        bcc: addresses(parsed.bcc) || [],
+        replyTo: addresses(parsed.replyTo) || [],
+        date: parsed.date === undefined ? _ea.not_set() : _ea.set(parsed.date),
+        messageId: parsed.messageId === undefined ? _ea.not_set() : _ea.set(parsed.messageId),
+        inReplyTo: parsed.inReplyTo === undefined ? _ea.not_set() : _ea.set(parsed.inReplyTo),
+        references: normalizeReferences(parsed.references) || [],
+        text: parsed.text === undefined ? _ea.not_set() : _ea.set(parsed.text),
+        html: parsed.html === undefined ? _ea.not_set() : _ea.set(parsed.html),
+        textAsHtml: parsed.textAsHtml === undefined ? _ea.not_set() : _ea.set(parsed.textAsHtml),
         attachments: normalizeAttachments(parsed.attachments || [])
     };
 }

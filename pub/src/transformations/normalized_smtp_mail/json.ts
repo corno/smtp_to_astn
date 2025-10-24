@@ -34,7 +34,10 @@ const array = <T>(arr: T[], converter: (item: T) => d_out.Value): d_out.Value =>
 const Address = (address: d_in.Address): d_out.Value => {
     const obj: { [key: string]: d_out.Value } = {
         name: string(address.name),
-        address: address.address !== undefined ? string(address.address) : null_()
+        address: address.address.transform(
+            ($) => string($),
+            () => null_()
+        )
     };
     
     return ['object', obj] as const;
@@ -54,14 +57,29 @@ const Address_Object = (addressObj: d_in.Address_Object): d_out.Value => {
 // Convert Attachment
 const Attachment = (attachment: d_in.Attachment): d_out.Value => {
     const obj: { [key: string]: d_out.Value } = {
-        filename: attachment.filename !== undefined ? string(attachment.filename) : null_(),
+        filename: attachment.filename.transform(
+            ($) => string($),
+            () => null_()
+        ),
         contentType: string(attachment.contentType),
-        contentDisposition: attachment.contentDisposition !== undefined ? string(attachment.contentDisposition) : null_(),
+        contentDisposition: attachment.contentDisposition.transform(
+            ($) => string($),
+            () => null_()
+        ),
         checksum: string(attachment.checksum),
         size: number(attachment.size),
-        content: attachment.content !== undefined ? string(attachment.content) : null_(),
-        cid: attachment.cid !== undefined ? string(attachment.cid) : null_(),
-        related: boolean(attachment.related ?? false)
+        content: attachment.content.transform(
+            ($) => string($),
+            () => null_()
+        ),
+        cid: attachment.cid.transform(
+            ($) => string($),
+            () => null_()
+        ),
+        related: attachment.related.transform(
+            ($) => boolean($),
+            () => boolean(false)
+        )
     };
     
     return ['object', obj] as const;
@@ -93,9 +111,12 @@ const Header_Value = (headerValue: d_in.Header_Value): d_out.Value => {
         case 'content_type':
             const contentTypeObj: { [key: string]: d_out.Value } = {
                 value: string(value.value),
-                params: value.params ? (['object', Object.fromEntries(
-                    Object.entries(value.params).map(([k, v]) => [k, string(v)])
-                )] as const) : null_()
+                params: value.params.transform(
+                    ($) => ['object', Object.fromEntries(
+                        Object.entries($).map(([k, v]) => [k, string(v)])
+                    )] as const,
+                    () => null_()
+                )
             };
             return ['array', [string(headerType), ['object', contentTypeObj]]] as const;
             
@@ -106,20 +127,41 @@ const Header_Value = (headerValue: d_in.Header_Value): d_out.Value => {
         case 'content_disposition':
             const dispositionObj: { [key: string]: d_out.Value } = {
                 value: string(value.value),
-                params: value.params ? (['object', Object.fromEntries(
-                    Object.entries(value.params).map(([k, v]) => [k, string(v)])
-                )] as const) : null_()
+                params: value.params.transform(
+                    ($) => ['object', Object.fromEntries(
+                        Object.entries($).map(([k, v]) => [k, string(v)])
+                    )] as const,
+                    () => null_()
+                )
             };
             return ['array', [string(headerType), ['object', dispositionObj]]] as const;
             
         case 'received':
             const receivedObj: { [key: string]: d_out.Value } = {
-                from: value.from ? string(value.from) : null_(),
-                by: value.by ? string(value.by) : null_(),
-                via: value.via ? string(value.via) : null_(),
-                with: value.with ? string(value.with) : null_(),
-                id: value.id ? string(value.id) : null_(),
-                for: value.for ? string(value.for) : null_(),
+                from: value.from.transform(
+                    ($) => string($),
+                    () => null_()
+                ),
+                by: value.by.transform(
+                    ($) => string($),
+                    () => null_()
+                ),
+                via: value.via.transform(
+                    ($) => string($),
+                    () => null_()
+                ),
+                with: value.with.transform(
+                    ($) => string($),
+                    () => null_()
+                ),
+                id: value.id.transform(
+                    ($) => string($),
+                    () => null_()
+                ),
+                for: value.for.transform(
+                    ($) => string($),
+                    () => null_()
+                ),
                 date: date(value.date)
             };
             return ['array', [string(headerType), ['object', receivedObj]]] as const;
@@ -153,19 +195,43 @@ const headers = (headers: { [key: string]: d_in.Header_Value }): d_out.Value => 
 export const Mail = (mail: d_in.Mail): d_out.Value => {
     const obj: { [key: string]: d_out.Value } = {
         headers: headers(mail.headers),
-        subject: mail.subject !== undefined ? string(mail.subject) : null_(),
-        from: mail.from !== undefined ? Address_Object(mail.from) : null_(),
-        to: mail.to !== undefined ? array(mail.to, Address_Object) : null_(),
-        cc: mail.cc !== undefined ? array(mail.cc, Address_Object) : null_(),
-        bcc: mail.bcc !== undefined ? array(mail.bcc, Address_Object) : null_(),
-        replyTo: mail.replyTo !== undefined ? array(mail.replyTo, Address_Object) : null_(),
-        date: mail.date !== undefined ? date(mail.date) : null_(),
-        messageId: mail.messageId !== undefined ? string(mail.messageId) : null_(),
-        inReplyTo: mail.inReplyTo !== undefined ? string(mail.inReplyTo) : null_(),
-        references: mail.references !== undefined ? array(mail.references, string) : null_(),
-        text: mail.text !== undefined ? string(mail.text) : null_(),
-        html: (mail.html !== undefined && mail.html !== false) ? string(mail.html) : null_(),
-        textAsHtml: mail.textAsHtml !== undefined ? string(mail.textAsHtml) : null_(),
+        subject: mail.subject.transform(
+            ($) => string($),
+            () => null_()
+        ),
+        from: mail.from.transform(
+            ($) => Address_Object($),
+            () => null_()
+        ),
+        to: array(mail.to, Address_Object),
+        cc: array(mail.cc, Address_Object),
+        bcc: array(mail.bcc, Address_Object),
+        replyTo: array(mail.replyTo, Address_Object),
+        date: mail.date.transform(
+            ($) => date($),
+            () => null_()
+        ),
+        messageId: mail.messageId.transform(
+            ($) => string($),
+            () => null_()
+        ),
+        inReplyTo: mail.inReplyTo.transform(
+            ($) => string($),
+            () => null_()
+        ),
+        references: array(mail.references, string),
+        text: mail.text.transform(
+            ($) => string($),
+            () => null_()
+        ),
+        html: mail.html.transform(
+            ($) => $ !== false ? string($) : null_(),
+            () => null_()
+        ),
+        textAsHtml: mail.textAsHtml.transform(
+            ($) => string($),
+            () => null_()
+        ),
         attachments: array(mail.attachments, Attachment)
     };
     

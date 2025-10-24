@@ -11,8 +11,8 @@
       "size": 93
     }
   ],
-  "bcc": null,
-  "cc": null,
+  "bcc": [],
+  "cc": [],
   "date": "2025-10-25T15:00:00.000Z",
   "from": {
     "html": "<span class=\"mp_address_group\"><a href=\"mailto:support@example.com\" class=\"mp_address_email\">support@example.com</a></span>",
@@ -82,8 +82,8 @@
   "html": null,
   "inReplyTo": null,
   "messageId": "<attachment-test@example.com>",
-  "references": null,
-  "replyTo": null,
+  "references": [],
+  "replyTo": [],
   "subject": "Document Attachment",
   "text": "Please find the attached document.\n",
   "textAsHtml": "<p>Please find the attached document.</p>",

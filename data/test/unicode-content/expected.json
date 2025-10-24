@@ -12,7 +12,7 @@
       ]
     }
   ],
-  "cc": null,
+  "cc": [],
   "date": "2025-10-25T17:00:00.000Z",
   "from": {
     "html": "<span class=\"mp_address_group\"><a href=\"mailto:notification@service.com\" class=\"mp_address_email\">notification@service.com</a></span>",
@@ -97,8 +97,8 @@
   "html": null,
   "inReplyTo": null,
   "messageId": "<unicode-test@service.com>",
-  "references": null,
-  "replyTo": null,
+  "references": [],
+  "replyTo": [],
   "subject": "Test message with UTF-8 subject",
   "text": "This message contains Unicode characters: \nFrançais, Español, Deutsch, 中文, العربية, Русский\n\nSpecial symbols: ©™®€£¥₽\n\nEmoji: 🌟✨🚀📧",
   "textAsHtml": "<p>This message contains Unicode characters:<br/>Fran&ccedil;ais, Espa&ntilde;ol, Deutsch, &#x4E2D;&#x6587;, &#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;, &Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</p><p>Special symbols: &copy;&trade;&reg;&euro;&pound;&yen;&#x20BD;</p><p>Emoji: &#x1F31F;&#x2728;&#x1F680;&#x1F4E7;</p>",
