@@ -1,3 +1,5 @@
+import * as _et from 'exupery-core-types'
+
 import * as d_in from "../../types/normalized_email"
 
 import * as d_out from "../../types/json"
@@ -26,8 +28,12 @@ const date = (value: Date): d_out.Value => {
     return ['string', value.toISOString()] as const;
 };
 
-const array = <T>(arr: T[], converter: (item: T) => d_out.Value): d_out.Value => {
+const array_old = <T>(arr: T[], converter: (item: T) => d_out.Value): d_out.Value => {
     return ['array', arr.map(converter)] as const;
+};
+
+const array = <T>(arr: _et.Array<T>, converter: (item: T) => d_out.Value): d_out.Value => {
+    return ['array', arr.__get_raw_copy().map(converter)] as const;
 };
 
 // Convert Address

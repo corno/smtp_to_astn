@@ -31,9 +31,9 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
     if (lowerKey === 'to' || lowerKey === 'cc' || lowerKey === 'bcc' || lowerKey === 'reply-to' || 
         lowerKey.startsWith('resent-to') || lowerKey.startsWith('resent-cc') || lowerKey.startsWith('resent-bcc')) {
         if (Array.isArray(value)) {
-            return ['address_list', value.map(addr => normalizeAddressObject(addr as d_in.AddressObject))];
+            return ['address_list', _ea.array_literal(value.map(addr => normalizeAddressObject(addr as d_in.AddressObject)))];
         } else if (value && typeof value === 'object') {
-            return ['address_list', [normalizeAddressObject(value as d_in.AddressObject)]];
+            return ['address_list', _ea.array_literal([normalizeAddressObject(value as d_in.AddressObject)])];
         }
     }
     
@@ -45,11 +45,11 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
     // Message ID lists (References, In-Reply-To)
     if (lowerKey === 'references' || lowerKey === 'in-reply-to') {
         if (Array.isArray(value)) {
-            return ['message_id_list', value.map(String)];
+            return ['message_id_list', _ea.array_literal(value.map(String))];
         } else if (value) {
-            return ['message_id_list', [String(value)]];
+            return ['message_id_list', _ea.array_literal([String(value)])];
         }
-        return ['message_id_list', []];
+        return ['message_id_list', _ea.array_literal([])];
     }
     
     // Content-Type
@@ -93,11 +93,11 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
     // Keywords
     if (lowerKey === 'keywords') {
         if (Array.isArray(value)) {
-            return ['keywords', value.map(String)];
+            return ['keywords', _ea.array_literal(value.map(String))];
         } else if (typeof value === 'string') {
-            return ['keywords', value.split(',').map(s => s.trim())];
+            return ['keywords', _ea.array_literal(value.split(',').map(s => s.trim()))];
         }
-        return ['keywords', [String(value)]];
+        return ['keywords', _ea.array_literal([String(value)])];
     }
     
     // Unstructured text fields
@@ -131,10 +131,10 @@ function convertToHeaderValue(key: string, value: any): d_out.Header_Value {
  */
 function normalizeAddressObject(addressObj: d_in.AddressObject): d_out.Address_Object {
     return {
-        value: addressObj.value.map(emailAddr => ({
+        value: _ea.array_literal(addressObj.value.map(emailAddr => ({
             address: emailAddr.address ? _ea.set(emailAddr.address) : _ea.not_set(),
             name: emailAddr.name || ''
-        })),
+        }))),
         html: addressObj.html,
         text: addressObj.text
     };
@@ -213,17 +213,17 @@ export function normalizeMailparserOutput(parsed: d_in.ParsedMail): d_out.Mail {
             const fromAddr = fromAddress(parsed.from);
             return fromAddr === undefined ? _ea.not_set() : _ea.set(fromAddr);
         })(),
-        to: addresses(parsed.to) || [],
-        cc: addresses(parsed.cc) || [],
-        bcc: addresses(parsed.bcc) || [],
-        replyTo: addresses(parsed.replyTo) || [],
+        to: _ea.array_literal(addresses(parsed.to) || []),
+        cc: _ea.array_literal(addresses(parsed.cc) || []),
+        bcc: _ea.array_literal(addresses(parsed.bcc) || []),
+        replyTo: _ea.array_literal(addresses(parsed.replyTo) || []),
         date: parsed.date === undefined ? _ea.not_set() : _ea.set(parsed.date),
         messageId: parsed.messageId === undefined ? _ea.not_set() : _ea.set(parsed.messageId),
         inReplyTo: parsed.inReplyTo === undefined ? _ea.not_set() : _ea.set(parsed.inReplyTo),
-        references: normalizeReferences(parsed.references) || [],
+        references: _ea.array_literal(normalizeReferences(parsed.references) || []),
         text: parsed.text === undefined ? _ea.not_set() : _ea.set(parsed.text),
         html: parsed.html === undefined ? _ea.not_set() : _ea.set(parsed.html),
         textAsHtml: parsed.textAsHtml === undefined ? _ea.not_set() : _ea.set(parsed.textAsHtml),
-        attachments: normalizeAttachments(parsed.attachments || [])
+        attachments: _ea.array_literal(normalizeAttachments(parsed.attachments || []))
     };
 }

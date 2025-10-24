@@ -11,7 +11,7 @@ export interface Address {
 }
 
 export interface Address_Object {
-    value: Address[]
+    value: _et.Array<Address>
     html: string
     text: string
 }
@@ -31,18 +31,18 @@ export interface Mail {
     headers: { [key: string]: Header_Value } // Raw headers map
     subject: _et.Optional_Value<string>
     from: _et.Optional_Value<Address_Object>      // Single object (RFC 5322 compliant)
-    to: Address_Object[]      // Always array
-    cc: Address_Object[]      // Always array
-    bcc: Address_Object[]     // Always array
-    replyTo: Address_Object[] // Always array
+    to: _et.Array<Address_Object>      // Always array
+    cc: _et.Array<Address_Object>      // Always array
+    bcc: _et.Array<Address_Object>     // Always array
+    replyTo: _et.Array<Address_Object> // Always array
     date: _et.Optional_Value<Date>
     messageId: _et.Optional_Value<string>
     inReplyTo: _et.Optional_Value<string>
-    references: string[]               // Always array
+    references: _et.Array<string>               // Always array
     text: _et.Optional_Value<string>
     html: _et.Optional_Value<string | false>
     textAsHtml: _et.Optional_Value<string>
-    attachments: Attachment[]
+    attachments: _et.Array<Attachment>
 }
 
 // Tagged union for different header value types
@@ -50,9 +50,9 @@ export type Header_Value =
     | ["unstructured", string]                    // Simple text headers like Subject, Comments
     | ["date", Date]                             // Date headers
     | ["address", Address_Object]                 // Single address headers like From, Sender
-    | ["address_list", Address_Object[]]          // Multiple address headers like To, Cc
+    | ["address_list", _et.Array<Address_Object>]          // Multiple address headers like To, Cc
     | ["message_id", string]                     // Message-ID format
-    | ["message_id_list", string[]]              // References, In-Reply-To (can be multiple)
+    | ["message_id_list", _et.Array<string>]              // References, In-Reply-To (can be multiple)
     | ["content_type", {                         // Content-Type with parameters
         value: string
         params: _et.Optional_Value<{ [key: string]: string }>
@@ -72,5 +72,5 @@ export type Header_Value =
         for: _et.Optional_Value<string>
         date: Date
     }]
-    | ["keywords", string[]]                     // Keywords field (comma-separated)
+    | ["keywords", _et.Array<string>]                     // Keywords field (comma-separated)
     | ["unknown", string]                       // Fallback for unrecognized headers
