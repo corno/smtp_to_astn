@@ -1,8 +1,4 @@
 {
-  "main": "dist/index.js",
-  "bin": {
-    "smtp-to-json": "./dist/index.js"
-  },
   "scripts": {
     "build": "tsc --project tsconfig.json"
   },

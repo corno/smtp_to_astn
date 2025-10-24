@@ -1,27 +1,42 @@
 {
-  "name": "smtp-to-json",
+  "name": "smtp-to-astn",
   "version": "1.0.0",
-  "description": "A tool that converts SMTP messages from stdin to JSON on stdout",
+  "description": "A tool that converts SMTP messages from stdin to ASTN on stdout",
   "keywords": [
     "smtp",
     "email",
-    "json",
+    "astn",
     "parser"
   ],
-  "author": "",
+  "author": "Corno",
   "license": "Apache-2.0",
+  "bin": {
+    "smtp-to-astn": "./pub/dist/bin/smtp-to-astn.js"
+  },
+  "main": "./pub/dist/src/smtp_to_astn.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/corno/smtp_to_astn.git"
   },
   "scripts": {
     "build": "cd pub && npm run build",
-    "start": "cd pub && node dist/index.js",
-    "dev": "cd pub && npx ts-node src/index.ts",
+    "start": "cd pub && node dist/bin/smtp-to-astn.js",
+    "dev": "cd pub && npx ts-node bin/smtp-to-astn.ts",
     "test": "./tools/test-suite.sh",
-    "test-complex": "cd pub && cat ../data/test/test-email-complex/source.eml | node dist/index.js",
+    "test-complex": "cd pub && cat ../data/test/test-email-complex/source.eml | node dist/bin/smtp-to-astn.js",
     "test-suite": "./tools/test-suite.sh",
     "install-deps": "cd pub && npm install",
-    "generate-expected": "./tools/generate-expected.sh"
+    "overwrite-expected": "./tools/overwrite-expected.sh"
+  },
+  "dependencies": {
+    "astn": "^0.111.21",
+    "mailparser": "^3.6.5",
+    "pareto-fountain-pen": "^0.1.34"
+  },
+  "devDependencies": {
+    "@types/mailparser": "^3.4.6",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
   }
 }
