@@ -1,0 +1,56 @@
+Date: Thu, 24 Oct 2025 10:30:00 +0000
+From: "John Doe" <john@example.com>
+To: "Jane Smith" <jane@example.com>, bob@company.com
+Cc: team@company.com
+Subject: Project Update with Attachment
+Message-ID: <project-update-2025@example.com>
+In-Reply-To: <original-message@example.com>
+References: <thread-start@example.com> <original-message@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="boundary456"
+
+--boundary456
+Content-Type: text/plain; charset=utf-8
+
+Hi everyone,
+
+Please find the project update attached. We've made significant progress this week:
+
+1. Completed API development
+2. Fixed critical bugs
+3. Updated documentation
+
+Let me know if you have any questions.
+
+Best regards,
+John
+
+--boundary456
+Content-Type: text/html; charset=utf-8
+
+<html>
+<head><title>Project Update</title></head>
+<body>
+<h2>Hi everyone,</h2>
+<p>Please find the project update attached. We've made significant progress this week:</p>
+<ol>
+<li><strong>Completed API development</strong></li>
+<li><em>Fixed critical bugs</em></li>
+<li>Updated documentation</li>
+</ol>
+<p>Let me know if you have any questions.</p>
+<p>Best regards,<br><strong>John</strong></p>
+</body>
+</html>
+
+--boundary456
+Content-Type: application/pdf; name="project-update.pdf"
+Content-Disposition: attachment; filename="project-update.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQKJcOkw7zDtsO4CjIgMCBvYmoKPDwKL0xlbmd0aCAzIDAgUgovRmls
+dGVyIC9GbGF0ZURlY29kZQo+PgpzdHJlYW0KeJwrKs5wBgCC0AKRAo4Cjg==
+endstream
+endobj
+
+--boundary456--

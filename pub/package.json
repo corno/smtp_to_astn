@@ -1,0 +1,33 @@
+{
+  "name": "smtp-to-json",
+  "version": "1.0.0",
+  "description": "A tool that converts SMTP messages from stdin to JSON on stdout",
+  "main": "dist/index.js",
+  "bin": {
+    "smtp-to-json": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "cat ../data/test/test-email.eml | node dist/index.js",
+    "test-complex": "cat ../data/test/test-email-complex.eml | node dist/index.js"
+  },
+  "keywords": [
+    "smtp",
+    "email",
+    "json",
+    "parser"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "mailparser": "^3.6.5"
+  },
+  "devDependencies": {
+    "@types/mailparser": "^3.4.6",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}
