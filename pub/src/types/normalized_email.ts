@@ -1,3 +1,5 @@
+import * as _et from 'exupery-core-types'
+
 /**
  * Normalized types that provide a cleaner, more consistent interface
  * than the raw mailparser output
